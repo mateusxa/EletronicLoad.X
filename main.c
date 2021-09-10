@@ -19,7 +19,7 @@ void main(void) {
     MCUinit();
     
     while(1){
-        
+        //
     }
             
     return;
