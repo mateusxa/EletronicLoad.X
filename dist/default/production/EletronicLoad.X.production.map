@@ -5,7 +5,7 @@ Linker command line:
 -W-3 --edf=K:\Program Files\Microchip\xc8\v2.32\pic\dat\en_msgs.txt -cn \
   -h+dist/default/production\EletronicLoad.X.production.sym \
   --cmf=dist/default/production\EletronicLoad.X.production.cmf -z -Q12F1840 \
-  -oC:\Users\mateu\AppData\Local\Temp\xcAsfok.4 --defsym=__MPLAB_BUILD=1 \
+  -oC:\Users\mateu\AppData\Local\Temp\xcAs17k.4 --defsym=__MPLAB_BUILD=1 \
   -Mdist/default/production/EletronicLoad.X.production.map -E1 \
   -ver=XC8 Compiler --acfsm=1493 -ASTACK=02000h-020EFh -pstack=STACK \
   -ACODE=00h-07FFhx2 -ASTRCODE=00h-0FFFh -ASTRING=00h-0FFhx16 \
@@ -27,7 +27,7 @@ Linker command line:
   -AEEDATA=00h-0FFh/0F000h -peeprom_data=EEDATA -DEEDATA=2 -DCODE=2 \
   -DSTRCODE=2 -DSTRING=2 -DCONST=2 -DENTRY=2 \
   -preset_vec=00h,intentry,init,end_init -ppowerup=CODE -pcinit=CODE \
-  -pfunctab=ENTRY -k C:\Users\mateu\AppData\Local\Temp\xcAsfok.o \
+  -pfunctab=ENTRY -k C:\Users\mateu\AppData\Local\Temp\xcAs17k.o \
   dist/default/production\EletronicLoad.X.production.o 
 
 Object code version is 3.11
@@ -37,19 +37,22 @@ Machine type is 12F1840
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
+C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
                 end_init                              2        2        2        0       0
                 reset_vec                             0        0        2        0       0
                 config                             8007     8007        2        0       4
 dist/default/production\EletronicLoad.X.production.o
                 cinit                               7FD      7FD        3      FFA       0
                 config                             8007     8007        2        0       4
-                text4                               7C0      7C0        4      F80       0
-                text3                               7D7      7D7        E      FAE       0
-                text2                               7C4      7C4        9      F88       0
-                text1                               7CD      7CD        A      F9A       0
-                maintext                            7E5      7E5       18      FCA       0
-                cstackCOMMON                         70       70        2       70       1
+                text6                               798      798        4      F30       0
+                text5                               7B8      7B8        E      F70       0
+                text4                               79C      79C        9      F38       0
+                text3                               7AE      7AE        A      F5C       0
+                text2                               7A5      7A5        9      F4A       0
+                text1                               7C6      7C6       17      F8C       0
+                maintext                            7DD      7DD       20      FBA       0
+                cstackCOMMON                         70       70        6       70       1
+                stringtext1                         800      800        5     1000       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   STACK          
@@ -58,13 +61,16 @@ TOTAL           Name                               Link     Load   Length     Sp
                 end_init                              2        2        2         0
                 cinit                               7FD      7FD        3         0
                 reset_vec                             0        0        2         0
-                text4                               7C0      7C0        4         0
-                text3                               7D7      7D7        E         0
-                text2                               7C4      7C4        9         0
-                text1                               7CD      7CD        A         0
-                maintext                            7E5      7E5       18         0
+                text6                               798      798        4         0
+                text5                               7B8      7B8        E         0
+                text4                               79C      79C        9         0
+                text3                               7AE      7AE        A         0
+                text2                               7A5      7A5        9         0
+                text1                               7C6      7C6       17         0
+                maintext                            7DD      7DD       20         0
 
         CLASS   STRCODE        
+                stringtext1                         800      800        5         0
 
         CLASS   STRING         
 
@@ -73,7 +79,7 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   ENTRY          
 
         CLASS   COMMON         
-                cstackCOMMON                         70       70        2         1
+                cstackCOMMON                         70       70        6         1
 
         CLASS   BANK0          
 
@@ -222,13 +228,16 @@ TOTAL           Name                               Link     Load   Length     Sp
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class     Delta
 
                 reset_vec                      000000  000004  000004         0       0  CODE        2
-                cstackCOMMON                   000070  000002  000072        70       1  COMMON      1
-                text4                          0007C0  000004  0007C4       F80       0  CODE        2
-                text2                          0007C4  000009  0007CD       F88       0  CODE        2
-                text1                          0007CD  00000A  0007D7       F9A       0  CODE        2
-                text3                          0007D7  00000E  0007E5       FAE       0  CODE        2
-                maintext                       0007E5  000018  0007FD       FCA       0  CODE        2
+                cstackCOMMON                   000070  000006  000076        70       1  COMMON      1
+                text6                          000798  000004  00079C       F30       0  CODE        2
+                text4                          00079C  000009  0007A5       F38       0  CODE        2
+                text2                          0007A5  000009  0007AE       F4A       0  CODE        2
+                text3                          0007AE  00000A  0007B8       F5C       0  CODE        2
+                text5                          0007B8  00000E  0007C6       F70       0  CODE        2
+                text1                          0007C6  000017  0007DD       F8C       0  CODE        2
+                maintext                       0007DD  000020  0007FD       FBA       0  CODE        2
                 cinit                          0007FD  000003  000800       FFA       0  CODE        2
+                stringtext1                    000800  000005  000805      1000       0  STRCODE     2
 
 
 UNUSED ADDRESS RANGES
@@ -238,14 +247,14 @@ UNUSED ADDRESS RANGES
         BANK1            000A0-000EF              50           1
         BANK2            00120-0016F              50           1
         BIGRAM           02000-020EF              F0           1
-        CODE             00004-007BF             7BC           2
-                         00800-00FFF             800
-        COMMON           00072-0007D               C           1
-        CONST            00004-007BF             100           2
-                         00800-00FFF             100
+        CODE             00004-00797             794           2
+                         00805-00FFF             7FB
+        COMMON           00076-0007D               8           1
+        CONST            00004-00797             100           2
+                         00805-00FFF             100
         EEDATA           0F000-0F0FF             100           2
-        ENTRY            00004-007BF             100           2
-                         00800-00FFF             100
+        ENTRY            00004-00797             100           2
+                         00805-00FFF             100
         IDLOC            08000-08003               4           2
         RAM              00020-0006F              50           1
                          000A0-000EF              50
@@ -283,25 +292,29 @@ UNUSED ADDRESS RANGES
         SFR8             00400-0046F              70           1
         SFR9             00480-004EF              70           1
         STACK            02000-020EF              F0           1
-        STRCODE          00004-007BF             7BC           2
-                         00800-00FFF             800
-        STRING           00004-007BF             100           2
-                         00800-00FFF             100
+        STRCODE          00004-00797             794           2
+                         00805-00FFF             7FB
+        STRING           00004-00797             100           2
+                         00805-00FFF             100
 
                                   Symbol Table
 
+UART_write@c             cstackCOMMON 00070
+UART_writeStr@data       cstackCOMMON 00071
 _BAUDCONbits             (abs)        0019F
-_IOinit                  text4        007C0
-_MCUinit                 text1        007CD
+_IOinit                  text6        00798
+_MCUinit                 text3        007AE
 _OSCCONbits              (abs)        00099
 _OSCSTATbits             (abs)        0009A
-_OSCinit                 text3        007D7
+_OSCinit                 text5        007B8
 _RCSTAbits               (abs)        0019D
 _SPBRG                   (abs)        0019B
 _TRISAbits               (abs)        0008C
 _TXREG                   (abs)        0019A
 _TXSTAbits               (abs)        0019E
-_USARTinit               text2        007C4
+_UART_write              text2        007A5
+_UART_writeStr           text1        007C6
+_UARTinit                text4        0079C
 __Habs1                  abs1         00000
 __Hbank0                 bank0        00000
 __Hbank1                 bank1        00000
@@ -383,13 +396,15 @@ __Hsfr6                  sfr6         00000
 __Hsfr7                  sfr7         00000
 __Hsfr8                  sfr8         00000
 __Hsfr9                  sfr9         00000
-__Hspace_0               (abs)        00800
-__Hspace_1               (abs)        00072
+__Hspace_0               (abs)        00805
+__Hspace_1               (abs)        00076
 __Hspace_2               (abs)        00000
 __Hspace_3               (abs)        00000
 __Hspace_4               (abs)        10010
 __Hstack                 stack        00000
 __Hstrings               strings      00000
+__Hstringtext1           stringtext1  00000
+__Hstringtext2           stringtext2  00000
 __Htext                  text         00000
 __Labs1                  abs1         00000
 __Lbank0                 bank0        00000
@@ -479,9 +494,11 @@ __Lspace_3               (abs)        00000
 __Lspace_4               (abs)        00000
 __Lstack                 stack        00000
 __Lstrings               strings      00000
+__Lstringtext1           stringtext1  00000
+__Lstringtext2           stringtext2  00000
 __Ltext                  text         00000
-__S0                     (abs)        00800
-__S1                     (abs)        00072
+__S0                     (abs)        00805
+__S1                     (abs)        00076
 __S2                     (abs)        00000
 __S3                     (abs)        00000
 ___int_sp                stack        00000
@@ -489,25 +506,33 @@ ___latbits               (abs)        00001
 ___sp                    stack        00000
 ___stackhi               (abs)        020EF
 ___stacklo               (abs)        02000
-__end_of_IOinit          text4        007C4
-__end_of_MCUinit         text1        007D7
-__end_of_OSCinit         text3        007E5
-__end_of_USARTinit       text2        007CD
+__end_of_IOinit          text6        0079C
+__end_of_MCUinit         text3        007B8
+__end_of_OSCinit         text5        007C6
+__end_of_UART_write      text2        007AE
+__end_of_UART_writeStr   text1        007DD
+__end_of_UARTinit        text4        007A5
 __end_of__initialization cinit        007FD
 __end_of_main            maintext     007FD
 __initialization         cinit        007FD
 __pcstackCOMMON          cstackCOMMON 00070
-__pmaintext              maintext     007E5
-__ptext1                 text1        007CD
-__ptext2                 text2        007C4
-__ptext3                 text3        007D7
-__ptext4                 text4        007C0
+__pmaintext              maintext     007DD
+__pstringtext1           stringtext1  00800
+__pstringtext2           stringtext2  00000
+__ptext1                 text1        007C6
+__ptext2                 text2        007A5
+__ptext3                 text3        007AE
+__ptext4                 text4        0079C
+__ptext5                 text5        007B8
+__ptext6                 text6        00798
 __size_of_IOinit         (abs)        00000
 __size_of_MCUinit        (abs)        00000
 __size_of_OSCinit        (abs)        00000
-__size_of_USARTinit      (abs)        00000
+__size_of_UART_write     (abs)        00000
+__size_of_UART_writeStr  (abs)        00000
+__size_of_UARTinit       (abs)        00000
 __size_of_main           (abs)        00000
-_main                    maintext     007E5
+_main                    maintext     007DD
 btemp                    (abs)        0007E
 end_of_initialization    cinit        007FD
 intlevel0                functab      00000
@@ -531,11 +556,13 @@ shared
 shared estimated size: 1
 
 main.c
-		_main          		CODE           	07E5	0000	24
-		_OSCinit       		CODE           	07D7	0000	14
-		_IOinit        		CODE           	07C0	0000	4
-		_USARTinit     		CODE           	07C4	0000	9
-		_MCUinit       		CODE           	07CD	0000	10
+		_UARTinit      		CODE           	079C	0000	9
+		_main          		CODE           	07DD	0000	32
+		_OSCinit       		CODE           	07B8	0000	14
+		_IOinit        		CODE           	0798	0000	4
+		_UART_write    		CODE           	07A5	0000	9
+		_MCUinit       		CODE           	07AE	0000	10
+		_UART_writeStr 		CODE           	07C6	0000	23
 
-main.c estimated size: 61
+main.c estimated size: 101
 

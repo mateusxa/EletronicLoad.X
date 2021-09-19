@@ -14,7 +14,9 @@ void OSCinit(void);
 void IOinit(void);
 void INTinit(void);
 
-void USARTinit(void);           // 
+void UARTinit(void);                // UART setup
+void UART_write(char c);            // Write on UART
+void UART_writeStr(char *data);     // Write string UART
 /*
 // ------------------------------------------
 void I2C_Master_Init(const unsigned long c);
@@ -45,8 +47,10 @@ void main(void) {
     PORTD = I2C_Master_Read(0); //Read + Acknowledge
     I2C_Master_Stop();          //Stop condition
     */
-      TXREG = 'a';
-      while(TXSTAbits.TRMT);
+      UART_writeStr("ABCD");
+      UART_write(0x0A);
+      UART_write(0x0D);
+      
     __delay_ms(1000);
 
     }  
@@ -57,7 +61,7 @@ void MCUinit(void){
     OSCinit();
     IOinit();
     //INTinit();
-    USARTinit();
+    UARTinit();
     //I2C_Master_Init(100000);      //Initialize I2C Master with 100KHz clock
 }
 
@@ -87,15 +91,26 @@ void INTinit(void){
      * */             
 }
      
-void USARTinit(void){
+void UARTinit(void){
     TXSTAbits.SYNC = 0;     // Choose Asynchronous mode
     TXSTAbits.BRGH = 1;     // Select High speed Baud Rate Generator
     BAUDCONbits.BRG16 = 0;  // Select 8 bit Baud Rate Generator
     SPBRG = 25;             // Baud Rate is 9600 with 0.16 error
     
     RCSTAbits.SPEN = 1;     // Enabling serial port
-    TXSTAbits.TXEN = 1;     // Enabling Transmission(TX)
-    
+    TXSTAbits.TXEN = 1;     // Enabling Transmission(TX) 
+}
+
+
+void UART_write(char c){
+    while(!TXSTAbits.TRMT);
+    TXREG = c;
+}
+
+void UART_writeStr(char *data){
+    while(*data){
+       UART_write(*data++);
+    }
 }
 /*
 // Initialize I2C Module as Master

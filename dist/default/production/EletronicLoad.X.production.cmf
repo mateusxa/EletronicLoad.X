@@ -11,18 +11,21 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
+$C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
 reset_vec CODE 0 0 0 2 2
 end_init CODE 0 2 2 2 2
 config CONFIG 4 8007 8007 2 2
 $dist/default/production\EletronicLoad.X.production.o
 cinit CODE 0 7FD 7FD 3 2
-text1 CODE 0 7CD 7CD A 2
-text2 CODE 0 7C4 7C4 9 2
-text3 CODE 0 7D7 7D7 E 2
-text4 CODE 0 7C0 7C0 4 2
-maintext CODE 0 7E5 7E5 18 2
-cstackCOMMON COMMON 1 70 70 2 1
+text1 CODE 0 7C6 7C6 17 2
+text2 CODE 0 7A5 7A5 9 2
+text3 CODE 0 7AE 7AE A 2
+text4 CODE 0 79C 79C 9 2
+text5 CODE 0 7B8 7B8 E 2
+text6 CODE 0 798 798 4 2
+maintext CODE 0 7DD 7DD 20 2
+cstackCOMMON COMMON 1 70 70 6 1
+stringtext1 STRCODE 0 800 800 5 2
 config CONFIG 4 8007 8007 2 2
 # %UNUSED Section
 # This section enumerates the unused ranges of each CLASS. Each entry
@@ -36,10 +39,10 @@ RAM 120-16F 1
 BANK0 20-6F 1
 BANK1 A0-EF 1
 BANK2 120-16F 1
-CONST 4-7BF 2
-CONST 800-FFF 2
-ENTRY 4-7BF 2
-ENTRY 800-FFF 2
+CONST 4-797 2
+CONST 805-FFF 2
+ENTRY 4-797 2
+ENTRY 805-FFF 2
 IDLOC 8000-8003 2
 SFR10 500-56F 1
 SFR11 580-5EF 1
@@ -64,8 +67,8 @@ SFR29 E80-EEF 1
 SFR30 F00-F6F 1
 SFR31 F80-FEF 1
 STACK 2000-20EF 1
-CODE 4-7BF 2
-CODE 800-FFF 2
+CODE 4-797 2
+CODE 805-FFF 2
 SFR0 0-1F 1
 SFR1 80-9F 1
 SFR2 100-11F 1
@@ -77,12 +80,12 @@ SFR7 380-3EF 1
 SFR8 400-46F 1
 SFR9 480-4EF 1
 BIGRAM 2000-20EF 1
-COMMON 72-7D 1
+COMMON 76-7D 1
 EEDATA F000-F0FF 2
-STRCODE 4-7BF 2
-STRCODE 800-FFF 2
-STRING 4-7BF 2
-STRING 800-FFF 2
+STRCODE 4-797 2
+STRCODE 805-FFF 2
+STRING 4-797 2
+STRING 805-FFF 2
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
 # The beginning of the section is indicated by %LINETAB.
@@ -97,38 +100,48 @@ STRING 800-FFF 2
 # All other numeric values are in decimal.
 %LINETAB
 $dist/default/production\EletronicLoad.X.production.o
-7FD cinit CODE >609:C:\Users\mateu\AppData\Local\Temp\xcAsfok.s
-7FD cinit CODE >612:C:\Users\mateu\AppData\Local\Temp\xcAsfok.s
-7FD cinit CODE >618:C:\Users\mateu\AppData\Local\Temp\xcAsfok.s
-7FD cinit CODE >620:C:\Users\mateu\AppData\Local\Temp\xcAsfok.s
-7FE cinit CODE >621:C:\Users\mateu\AppData\Local\Temp\xcAsfok.s
-7C0 text4 CODE >70:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7C0 text4 CODE >71:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7C2 text4 CODE >72:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7C3 text4 CODE >80:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7D7 text3 CODE >64:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7D7 text3 CODE >65:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7DC text3 CODE >66:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7E0 text3 CODE >67:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7E4 text3 CODE >68:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7C4 text2 CODE >90:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7C4 text2 CODE >91:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7C6 text2 CODE >92:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7C7 text2 CODE >93:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7C8 text2 CODE >94:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7CA text2 CODE >96:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7CB text2 CODE >97:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7CC text2 CODE >99:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7CD text1 CODE >56:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7CD text1 CODE >57:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7D0 text1 CODE >58:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7D3 text1 CODE >60:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7D6 text1 CODE >62:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7E5 maintext CODE >29:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7E5 maintext CODE >31:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7E8 maintext CODE >48:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7EB maintext CODE >49:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
-7EF maintext CODE >50:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7FD cinit CODE >625:C:\Users\mateu\AppData\Local\Temp\xcAs17k.s
+7FD cinit CODE >628:C:\Users\mateu\AppData\Local\Temp\xcAs17k.s
+7FD cinit CODE >634:C:\Users\mateu\AppData\Local\Temp\xcAs17k.s
+7FD cinit CODE >636:C:\Users\mateu\AppData\Local\Temp\xcAs17k.s
+7FE cinit CODE >637:C:\Users\mateu\AppData\Local\Temp\xcAs17k.s
+798 text6 CODE >74:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+798 text6 CODE >75:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+79A text6 CODE >76:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+79B text6 CODE >84:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7B8 text5 CODE >68:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7B8 text5 CODE >69:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7BD text5 CODE >70:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7C1 text5 CODE >71:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7C5 text5 CODE >72:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+79C text4 CODE >94:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+79C text4 CODE >95:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+79E text4 CODE >96:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+79F text4 CODE >97:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7A0 text4 CODE >98:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7A2 text4 CODE >100:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7A3 text4 CODE >101:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7A4 text4 CODE >102:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7AE text3 CODE >60:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7AE text3 CODE >61:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7B1 text3 CODE >62:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7B4 text3 CODE >64:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7B7 text3 CODE >66:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7A5 text2 CODE >105:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7A6 text2 CODE >106:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7AB text2 CODE >107:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7AD text2 CODE >108:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7C6 text1 CODE >110:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7C6 text1 CODE >111:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7C7 text1 CODE >112:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7D3 text1 CODE >111:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7DC text1 CODE >114:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7DD maintext CODE >31:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7DD maintext CODE >33:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7E0 maintext CODE >50:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7E7 maintext CODE >51:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7EB maintext CODE >52:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+7EF maintext CODE >54:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -142,45 +155,46 @@ $dist/default/production\EletronicLoad.X.production.o
 # is the name of the object file in which the symbol was defined.
 %SYMTAB
 ___latbits 1 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
-__Hspace_0 800 0 ABS 0 - -
-__Hspace_1 72 0 ABS 0 - -
+__Hspace_0 805 0 ABS 0 - -
+__Hspace_1 76 0 ABS 0 - -
 __Hspace_2 0 0 ABS 0 - -
 __Hspace_3 0 0 ABS 0 - -
 __Hspace_4 10010 0 ABS 0 - -
-__end_of_IOinit F88 0 CODE 0 text4 dist/default/production\EletronicLoad.X.production.o
+__end_of_IOinit F38 0 CODE 0 text6 dist/default/production\EletronicLoad.X.production.o
 __Heeprom_data 0 0 EEDATA 3 eeprom_data -
 __Hstrings 0 0 ABS 0 strings -
-___sp 0 0 STACK 2 stack C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-_main FCA 0 CODE 0 maintext dist/default/production\EletronicLoad.X.production.o
+___sp 0 0 STACK 2 stack C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+_main FBA 0 CODE 0 maintext dist/default/production\EletronicLoad.X.production.o
 btemp 7E 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
-start 4 0 CODE 0 init C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
+start 4 0 CODE 0 init C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
 __size_of_main 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __Hpowerup 0 0 CODE 0 powerup -
-intlevel0 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-intlevel1 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-intlevel2 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-intlevel3 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-intlevel4 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-intlevel5 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
+intlevel0 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+intlevel1 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+intlevel2 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+intlevel3 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+intlevel4 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+intlevel5 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
 __size_of_OSCinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 _OSCCONbits 99 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 wtemp0 7E 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __Hfunctab 0 0 ENTRY 0 functab -
+_UART_write F4A 0 CODE 0 text2 dist/default/production\EletronicLoad.X.production.o
 __Hclrtext 0 0 ABS 0 clrtext -
+_UART_writeStr F8C 0 CODE 0 text1 dist/default/production\EletronicLoad.X.production.o
 __Lmaintext 0 0 ABS 0 maintext -
 _BAUDCONbits 19F 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
-__end_of_USARTinit F9A 0 CODE 0 text2 dist/default/production\EletronicLoad.X.production.o
-__size_of_USARTinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
-_IOinit F80 0 CODE 0 text4 dist/default/production\EletronicLoad.X.production.o
-___stackhi 20EF 0 ABS 0 - C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-___stacklo 2000 0 ABS 0 - C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-_USARTinit F88 0 CODE 0 text2 dist/default/production\EletronicLoad.X.production.o
+_IOinit F30 0 CODE 0 text6 dist/default/production\EletronicLoad.X.production.o
+___stackhi 20EF 0 ABS 0 - C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+___stacklo 2000 0 ABS 0 - C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+__end_of_UART_write F5C 0 CODE 0 text2 dist/default/production\EletronicLoad.X.production.o
 start_initialization FFA 0 CODE 0 cinit dist/default/production\EletronicLoad.X.production.o
-__end_of_OSCinit FCA 0 CODE 0 text3 dist/default/production\EletronicLoad.X.production.o
+__end_of_OSCinit F8C 0 CODE 0 text5 dist/default/production\EletronicLoad.X.production.o
 _TRISAbits 8C 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __size_of_IOinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
+__size_of_UART_writeStr 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __size_of_MCUinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
-___int_sp 0 0 STACK 2 stack C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
+___int_sp 0 0 STACK 2 stack C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
 __Hbank0 0 0 ABS 0 bank0 -
 __Hbank1 0 0 ABS 0 bank1 -
 __Hbank2 0 0 ABS 0 bank2 -
@@ -275,6 +289,7 @@ __Lsfr29 0 0 ABS 0 sfr29 -
 __Lsfr30 0 0 ABS 0 sfr30 -
 __Lsfr31 0 0 ABS 0 sfr31 -
 __Lstack 0 0 STACK 2 stack -
+__end_of_UART_writeStr FBA 0 CODE 0 text1 dist/default/production\EletronicLoad.X.production.o
 __Habs1 0 0 ABS 0 abs1 -
 __Hcode 0 0 ABS 0 code -
 __Hinit 4 0 CODE 0 init -
@@ -303,15 +318,21 @@ __Lsfr7 0 0 ABS 0 sfr7 -
 __Lsfr8 0 0 ABS 0 sfr8 -
 __Lsfr9 0 0 ABS 0 sfr9 -
 __Ltext 0 0 ABS 0 text -
+__pstringtext1 1000 0 STRCODE 0 stringtext1 dist/default/production\EletronicLoad.X.production.o
+__pstringtext2 0 0 STRCODE 0 stringtext2 dist/default/production\EletronicLoad.X.production.o
 __HcstackCOMMON 0 0 ABS 0 cstackCOMMON -
-__S0 800 0 ABS 0 - -
-__S1 72 0 ABS 0 - -
+__S0 805 0 ABS 0 - -
+__S1 76 0 ABS 0 - -
 __S2 0 0 ABS 0 - -
 __S3 0 0 ABS 0 - -
+UART_write@c 70 0 COMMON 1 cstackCOMMON dist/default/production\EletronicLoad.X.production.o
 __Lintentry 4 0 CODE 0 intentry -
-reset_vec 0 0 CODE 0 reset_vec C:\Users\mateu\AppData\Local\Temp\xcAsfok.o
-__end_of_MCUinit FAE 0 CODE 0 text1 dist/default/production\EletronicLoad.X.production.o
+reset_vec 0 0 CODE 0 reset_vec C:\Users\mateu\AppData\Local\Temp\xcAs17k.o
+__end_of_MCUinit F70 0 CODE 0 text3 dist/default/production\EletronicLoad.X.production.o
+__Lstringtext1 0 0 ABS 0 stringtext1 -
+__Lstringtext2 0 0 ABS 0 stringtext2 -
 _RCSTAbits 19D 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
+__size_of_UART_write 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __Lbank10 0 0 BANK10 1 bank10 -
 __Lbank11 0 0 BANK11 1 bank11 -
 __Lbank12 0 0 BANK12 1 bank12 -
@@ -334,11 +355,11 @@ __Lbank28 0 0 BANK28 1 bank28 -
 __Lbank29 0 0 BANK29 1 bank29 -
 __Lbank30 0 0 BANK30 1 bank30 -
 __Lbank31 0 0 BANK31 1 bank31 -
-__pmaintext FCA 0 CODE 0 maintext dist/default/production\EletronicLoad.X.production.o
+__pmaintext FBA 0 CODE 0 maintext dist/default/production\EletronicLoad.X.production.o
 __Lbigram 0 0 ABS 0 bigram -
 __Lcommon 0 0 ABS 0 common -
 __Lconfig 0 0 CONFIG 4 config -
-_OSCinit FAE 0 CODE 0 text3 dist/default/production\EletronicLoad.X.production.o
+_OSCinit F70 0 CODE 0 text5 dist/default/production\EletronicLoad.X.production.o
 __Lspace_0 0 0 ABS 0 - -
 __Lspace_1 0 0 ABS 0 - -
 __Lspace_2 0 0 ABS 0 - -
@@ -350,27 +371,35 @@ end_of_initialization FFA 0 CODE 0 cinit dist/default/production\EletronicLoad.X
 __Hintentry 4 0 CODE 0 intentry -
 __Lstrings 0 0 ABS 0 strings -
 __Hreset_vec 4 0 CODE 0 reset_vec -
-__ptext1 F9A 0 CODE 0 text1 dist/default/production\EletronicLoad.X.production.o
-__ptext2 F88 0 CODE 0 text2 dist/default/production\EletronicLoad.X.production.o
-__ptext3 FAE 0 CODE 0 text3 dist/default/production\EletronicLoad.X.production.o
-__ptext4 F80 0 CODE 0 text4 dist/default/production\EletronicLoad.X.production.o
+__ptext1 F8C 0 CODE 0 text1 dist/default/production\EletronicLoad.X.production.o
+__ptext2 F4A 0 CODE 0 text2 dist/default/production\EletronicLoad.X.production.o
+__ptext3 F5C 0 CODE 0 text3 dist/default/production\EletronicLoad.X.production.o
+__ptext4 F38 0 CODE 0 text4 dist/default/production\EletronicLoad.X.production.o
+__ptext5 F70 0 CODE 0 text5 dist/default/production\EletronicLoad.X.production.o
+__ptext6 F30 0 CODE 0 text6 dist/default/production\EletronicLoad.X.production.o
 __Lpowerup 0 0 CODE 0 powerup -
 __Leeprom_data 0 0 EEDATA 3 eeprom_data -
+__size_of_UARTinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __Lreset_vec 0 0 CODE 0 reset_vec -
+__Hstringtext1 0 0 ABS 0 stringtext1 -
+__Hstringtext2 0 0 ABS 0 stringtext2 -
 __end_of__initialization FFA 0 CODE 0 cinit dist/default/production\EletronicLoad.X.production.o
 __Lfunctab 0 0 ENTRY 0 functab -
 __Lclrtext 0 0 ABS 0 clrtext -
 __pcstackCOMMON 70 0 COMMON 1 cstackCOMMON dist/default/production\EletronicLoad.X.production.o
 _TXSTAbits 19E 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __Hend_init 8 0 CODE 0 end_init -
+UART_writeStr@data 71 0 COMMON 1 cstackCOMMON dist/default/production\EletronicLoad.X.production.o
 __end_of_main FFA 0 CODE 0 maintext dist/default/production\EletronicLoad.X.production.o
 _SPBRG 19B 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 _TXREG 19A 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __Hram 0 0 ABS 0 ram -
 __Lram 0 0 ABS 0 ram -
+_UARTinit F38 0 CODE 0 text4 dist/default/production\EletronicLoad.X.production.o
 _OSCSTATbits 9A 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
-_MCUinit F9A 0 CODE 0 text1 dist/default/production\EletronicLoad.X.production.o
+_MCUinit F5C 0 CODE 0 text3 dist/default/production\EletronicLoad.X.production.o
 __initialization FFA 0 CODE 0 cinit dist/default/production\EletronicLoad.X.production.o
+__end_of_UARTinit F4A 0 CODE 0 text4 dist/default/production\EletronicLoad.X.production.o
 # %SPLITSTAB Section
 # This section enumerates all the psect splits performed by the assembler.
 # The beginning of the section is indicated by %SPLITSTAB.
@@ -397,12 +426,15 @@ __initialization FFA 0 CODE 0 cinit dist/default/production\EletronicLoad.X.prod
 # All other numeric quantities are in decimal.
 %SEGMENTS
 cinit 0 7FD FFA 3 2
-text1 0 7CD F9A A 2
-text2 0 7C4 F88 9 2
-text3 0 7D7 FAE E 2
-text4 0 7C0 F80 4 2
-maintext 0 7E5 FCA 18 2
-cstackCOMMON 1 70 70 2 1
+text1 0 7C6 F8C 17 2
+text2 0 7A5 F4A 9 2
+text3 0 7AE F5C A 2
+text4 0 79C F38 9 2
+text5 0 7B8 F70 E 2
+text6 0 798 F30 4 2
+maintext 0 7DD FBA 20 2
+cstackCOMMON 1 70 70 6 1
+stringtext1 0 800 1000 5 2
 reset_vec 0 0 0 4 2
 # %NOTES Section
 # This section contains data of all the note-psects.  The beginning of the section

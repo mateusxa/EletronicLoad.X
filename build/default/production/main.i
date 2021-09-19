@@ -3258,8 +3258,10 @@ void OSCinit(void);
 void IOinit(void);
 void INTinit(void);
 
-void USARTinit(void);
-# 29 "main.c"
+void UARTinit(void);
+void UART_write(char c);
+void UART_writeStr(char *data);
+# 31 "main.c"
 void main(void) {
 
     MCUinit();
@@ -3267,9 +3269,11 @@ void main(void) {
 
   while(1)
   {
-# 48 "main.c"
-      TXREG = 'a';
-      while(TXSTAbits.TRMT);
+# 50 "main.c"
+      UART_writeStr("ABCD");
+      UART_write(0x0A);
+      UART_write(0x0D);
+
     _delay((unsigned long)((1000)*(4000000/4000.0)));
 
     }
@@ -3280,7 +3284,7 @@ void MCUinit(void){
     OSCinit();
     IOinit();
 
-    USARTinit();
+    UARTinit();
 
 }
 
@@ -3310,7 +3314,7 @@ void INTinit(void){
 
 }
 
-void USARTinit(void){
+void UARTinit(void){
     TXSTAbits.SYNC = 0;
     TXSTAbits.BRGH = 1;
     BAUDCONbits.BRG16 = 0;
@@ -3318,5 +3322,16 @@ void USARTinit(void){
 
     RCSTAbits.SPEN = 1;
     TXSTAbits.TXEN = 1;
+}
 
+
+void UART_write(char c){
+    while(!TXSTAbits.TRMT);
+    TXREG = c;
+}
+
+void UART_writeStr(char *data){
+    while(*data){
+       UART_write(*data++);
+    }
 }
