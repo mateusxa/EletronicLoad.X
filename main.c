@@ -13,6 +13,10 @@ void MCUinit(void);
 void OSCinit(void);
 void IOinit(void);
 void INTinit(void);
+
+void USARTinit(void);           // 
+/*
+// ------------------------------------------
 void I2C_Master_Init(const unsigned long c);
 void I2C_Master_Wait();
 void I2C_Master_Start();
@@ -20,7 +24,7 @@ void I2C_Master_RepeatedStart();
 void I2C_Master_Stop();
 void I2C_Master_Write(unsigned char d);
 unsigned short I2C_Master_Read(unsigned short a);
-
+*/
 
 void main(void) {
     
@@ -40,8 +44,11 @@ void main(void) {
     I2C_Master_Write(0x31);     //7 bit address + Read
     PORTD = I2C_Master_Read(0); //Read + Acknowledge
     I2C_Master_Stop();          //Stop condition
-    __delay_ms(200);
-  */
+    */
+      TXREG = 'a';
+      while(TXSTAbits.TRMT);
+    __delay_ms(1000);
+
     }  
     return;
 }
@@ -49,33 +56,48 @@ void main(void) {
 void MCUinit(void){
     OSCinit();
     IOinit();
-    INTinit();
-    I2C_Master_Init(100000);      //Initialize I2C Master with 100KHz clock
+    //INTinit();
+    USARTinit();
+    //I2C_Master_Init(100000);      //Initialize I2C Master with 100KHz clock
 }
 
 void OSCinit(void){
     OSCCONbits.SCS = 0B10;              // 1x - Internal oscillator block
     OSCCONbits.IRCF = 0B1101;           // 1101 = 4 MHz HF
-    while(OSCSTATbits.HFIOFS != 1);
+    while(OSCSTATbits.HFIOFS != 1);     // Wait for the clock to stabilize
 }
 
 void IOinit(void){
-    TRISAbits.TRISA5 = 1;
-    TRISAbits.TRISA4 = 1;
-    
+    TRISAbits.TRISA0 = 0;
+    TRISAbits.TRISA1 = 1;
+    /*
     WPUAbits.WPUA5 = 1;
     WPUAbits.WPUA4 = 1;
     
     IOCANbits.IOCAN5 = 1;
     IOCANbits.IOCAN4 = 1;
+    */
 }
 
 void INTinit(void){
-    INTCONbits.IOCIE = 1;
-    INTCONbits.PEIE = 1;
-    INTCONbits.GIE = 1;
+    /*
+    INTCONbits.IOCIE = 1;               
+    INTCONbits.PEIE = 1;                
+    INTCONbits.GIE = 1;    
+     * */             
 }
-
+     
+void USARTinit(void){
+    TXSTAbits.SYNC = 0;     // Choose Asynchronous mode
+    TXSTAbits.BRGH = 1;     // Select High speed Baud Rate Generator
+    BAUDCONbits.BRG16 = 0;  // Select 8 bit Baud Rate Generator
+    SPBRG = 25;             // Baud Rate is 9600 with 0.16 error
+    
+    RCSTAbits.SPEN = 1;     // Enabling serial port
+    TXSTAbits.TXEN = 1;     // Enabling Transmission(TX)
+    
+}
+/*
 // Initialize I2C Module as Master
 void I2C_Master_Init(const unsigned long c)
 {
@@ -134,3 +156,4 @@ unsigned short I2C_Master_Read(unsigned short a)
   ACKEN = 1;          //Acknowledge sequence
   return temp;
 }
+*/

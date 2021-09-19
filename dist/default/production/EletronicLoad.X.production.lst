@@ -1,7 +1,7 @@
 
 
 Microchip MPLAB XC8 Assembler V2.32 build 20210201212658 
-                                                                                               Sun Sep 12 21:57:48 2021
+                                                                                               Sun Sep 19 00:29:19 2021
 
 Microchip MPLAB XC8 C Compiler v2.32 (Free license) build 20210201212658 Og1 
      1                           	processor	12F1840
@@ -14,771 +14,694 @@ Microchip MPLAB XC8 C Compiler v2.32 (Free license) build 20210201212658 Og1
      8                           	psect	text2,local,class=CODE,merge=1,delta=2
      9                           	psect	text3,local,class=CODE,merge=1,delta=2
     10                           	psect	text4,local,class=CODE,merge=1,delta=2
-    11                           	psect	text5,local,class=CODE,merge=1,delta=2
-    12                           	psect	config,global,abs,ovrld,class=CONFIG,space=4,delta=2,noexec
-    13                           	dabs	1,0x7E,2
-    14  0000                     
-    15                           ; Version 2.20
-    16                           ; Generated 12/02/2020 GMT
-    17                           ; 
-    18                           ; Copyright © 2020, Microchip Technology Inc. and its subsidiaries ("Microchip")
-    19                           ; All rights reserved.
-    20                           ; 
-    21                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
+    11                           	psect	config,global,abs,ovrld,class=CONFIG,space=4,delta=2,noexec
+    12                           	dabs	1,0x7E,2
+    13  0000                     
+    14                           ; Version 2.20
+    15                           ; Generated 12/02/2020 GMT
+    16                           ; 
+    17                           ; Copyright © 2020, Microchip Technology Inc. and its subsidiaries ("Microchip")
+    18                           ; All rights reserved.
+    19                           ; 
+    20                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
       +                          ip").
-    22                           ; 
-    23                           ; Redistribution and use in source and binary forms, with or without modification, are
-    24                           ; permitted provided that the following conditions are met:
-    25                           ; 
-    26                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
+    21                           ; 
+    22                           ; Redistribution and use in source and binary forms, with or without modification, are
+    23                           ; permitted provided that the following conditions are met:
+    24                           ; 
+    25                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
       +                          t of
-    27                           ;        conditions and the following disclaimer.
-    28                           ; 
-    29                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
+    26                           ;        conditions and the following disclaimer.
+    27                           ; 
+    28                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
       +                          list
-    30                           ;        of conditions and the following disclaimer in the documentation and/or other
-    31                           ;        materials provided with the distribution.
-    32                           ; 
-    33                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
+    29                           ;        of conditions and the following disclaimer in the documentation and/or other
+    30                           ;        materials provided with the distribution.
+    31                           ; 
+    32                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
       +                          is
-    34                           ;        software without specific prior written permission.
-    35                           ; 
-    36                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-    37                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
+    33                           ;        software without specific prior written permission.
+    34                           ; 
+    35                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+    36                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
       +                          OR
-    38                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
+    37                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
       +                          T,
-    39                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
-    40                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
-    41                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
+    38                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+    39                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
+    40                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
       +                          RICT
-    42                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
+    41                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
       +                          SE OF
-    43                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    42                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    43                           ; 
     44                           ; 
-    45                           ; 
-    46                           ; Code-generator required, PIC12F1840 Definitions
-    47                           ; 
-    48                           ; SFR Addresses
-    49  0000                     	;# 
-    50  0001                     	;# 
-    51  0002                     	;# 
-    52  0003                     	;# 
-    53  0004                     	;# 
-    54  0005                     	;# 
-    55  0006                     	;# 
-    56  0007                     	;# 
-    57  0008                     	;# 
-    58  0009                     	;# 
-    59  000A                     	;# 
-    60  000B                     	;# 
-    61  000C                     	;# 
-    62  0011                     	;# 
-    63  0012                     	;# 
-    64  0015                     	;# 
+    45                           ; Code-generator required, PIC12F1840 Definitions
+    46                           ; 
+    47                           ; SFR Addresses
+    48  0000                     	;# 
+    49  0001                     	;# 
+    50  0002                     	;# 
+    51  0003                     	;# 
+    52  0004                     	;# 
+    53  0005                     	;# 
+    54  0006                     	;# 
+    55  0007                     	;# 
+    56  0008                     	;# 
+    57  0009                     	;# 
+    58  000A                     	;# 
+    59  000B                     	;# 
+    60  000C                     	;# 
+    61  0011                     	;# 
+    62  0012                     	;# 
+    63  0015                     	;# 
+    64  0016                     	;# 
     65  0016                     	;# 
-    66  0016                     	;# 
-    67  0017                     	;# 
-    68  0018                     	;# 
-    69  0019                     	;# 
-    70  001A                     	;# 
-    71  001B                     	;# 
-    72  001C                     	;# 
-    73  001E                     	;# 
-    74  001F                     	;# 
-    75  008C                     	;# 
-    76  0091                     	;# 
-    77  0092                     	;# 
-    78  0095                     	;# 
-    79  0096                     	;# 
-    80  0097                     	;# 
-    81  0098                     	;# 
-    82  0099                     	;# 
-    83  009A                     	;# 
+    66  0017                     	;# 
+    67  0018                     	;# 
+    68  0019                     	;# 
+    69  001A                     	;# 
+    70  001B                     	;# 
+    71  001C                     	;# 
+    72  001E                     	;# 
+    73  001F                     	;# 
+    74  008C                     	;# 
+    75  0091                     	;# 
+    76  0092                     	;# 
+    77  0095                     	;# 
+    78  0096                     	;# 
+    79  0097                     	;# 
+    80  0098                     	;# 
+    81  0099                     	;# 
+    82  009A                     	;# 
+    83  009B                     	;# 
     84  009B                     	;# 
-    85  009B                     	;# 
-    86  009C                     	;# 
-    87  009D                     	;# 
-    88  009E                     	;# 
-    89  010C                     	;# 
-    90  0111                     	;# 
-    91  0112                     	;# 
-    92  0115                     	;# 
-    93  0116                     	;# 
-    94  0117                     	;# 
-    95  0118                     	;# 
-    96  0119                     	;# 
-    97  011A                     	;# 
-    98  011B                     	;# 
+    85  009C                     	;# 
+    86  009D                     	;# 
+    87  009E                     	;# 
+    88  010C                     	;# 
+    89  0111                     	;# 
+    90  0112                     	;# 
+    91  0115                     	;# 
+    92  0116                     	;# 
+    93  0117                     	;# 
+    94  0118                     	;# 
+    95  0119                     	;# 
+    96  011A                     	;# 
+    97  011B                     	;# 
+    98  011D                     	;# 
     99  011D                     	;# 
-   100  011D                     	;# 
-   101  018C                     	;# 
+   100  018C                     	;# 
+   101  0191                     	;# 
    102  0191                     	;# 
-   103  0191                     	;# 
-   104  0192                     	;# 
+   103  0192                     	;# 
+   104  0193                     	;# 
    105  0193                     	;# 
    106  0193                     	;# 
-   107  0193                     	;# 
-   108  0194                     	;# 
-   109  0195                     	;# 
-   110  0196                     	;# 
-   111  0197                     	;# 
-   112  0199                     	;# 
-   113  019A                     	;# 
+   107  0194                     	;# 
+   108  0195                     	;# 
+   109  0196                     	;# 
+   110  0197                     	;# 
+   111  0199                     	;# 
+   112  019A                     	;# 
+   113  019B                     	;# 
    114  019B                     	;# 
    115  019B                     	;# 
    116  019B                     	;# 
-   117  019B                     	;# 
+   117  019C                     	;# 
    118  019C                     	;# 
-   119  019C                     	;# 
-   120  019D                     	;# 
-   121  019E                     	;# 
-   122  019F                     	;# 
-   123  020C                     	;# 
+   119  019D                     	;# 
+   120  019E                     	;# 
+   121  019F                     	;# 
+   122  020C                     	;# 
+   123  0211                     	;# 
    124  0211                     	;# 
-   125  0211                     	;# 
+   125  0212                     	;# 
    126  0212                     	;# 
-   127  0212                     	;# 
+   127  0213                     	;# 
    128  0213                     	;# 
-   129  0213                     	;# 
+   129  0214                     	;# 
    130  0214                     	;# 
-   131  0214                     	;# 
+   131  0215                     	;# 
    132  0215                     	;# 
    133  0215                     	;# 
-   134  0215                     	;# 
+   134  0216                     	;# 
    135  0216                     	;# 
-   136  0216                     	;# 
+   136  0217                     	;# 
    137  0217                     	;# 
-   138  0217                     	;# 
+   138  0291                     	;# 
    139  0291                     	;# 
-   140  0291                     	;# 
-   141  0292                     	;# 
-   142  0293                     	;# 
-   143  0294                     	;# 
+   140  0292                     	;# 
+   141  0293                     	;# 
+   142  0294                     	;# 
+   143  0295                     	;# 
    144  0295                     	;# 
-   145  0295                     	;# 
-   146  0296                     	;# 
-   147  0391                     	;# 
-   148  0392                     	;# 
-   149  0393                     	;# 
-   150  039A                     	;# 
-   151  039C                     	;# 
-   152  039D                     	;# 
-   153  039E                     	;# 
-   154  039F                     	;# 
-   155  0FE4                     	;# 
-   156  0FE5                     	;# 
-   157  0FE6                     	;# 
-   158  0FE7                     	;# 
-   159  0FE8                     	;# 
-   160  0FE9                     	;# 
-   161  0FEA                     	;# 
-   162  0FEB                     	;# 
-   163  0FED                     	;# 
-   164  0FEE                     	;# 
-   165  0FEF                     	;# 
-   166  0000                     	;# 
-   167  0001                     	;# 
-   168  0002                     	;# 
-   169  0003                     	;# 
-   170  0004                     	;# 
-   171  0005                     	;# 
-   172  0006                     	;# 
-   173  0007                     	;# 
-   174  0008                     	;# 
-   175  0009                     	;# 
-   176  000A                     	;# 
-   177  000B                     	;# 
-   178  000C                     	;# 
-   179  0011                     	;# 
-   180  0012                     	;# 
-   181  0015                     	;# 
+   145  0296                     	;# 
+   146  0391                     	;# 
+   147  0392                     	;# 
+   148  0393                     	;# 
+   149  039A                     	;# 
+   150  039C                     	;# 
+   151  039D                     	;# 
+   152  039E                     	;# 
+   153  039F                     	;# 
+   154  0FE4                     	;# 
+   155  0FE5                     	;# 
+   156  0FE6                     	;# 
+   157  0FE7                     	;# 
+   158  0FE8                     	;# 
+   159  0FE9                     	;# 
+   160  0FEA                     	;# 
+   161  0FEB                     	;# 
+   162  0FED                     	;# 
+   163  0FEE                     	;# 
+   164  0FEF                     	;# 
+   165  0000                     	;# 
+   166  0001                     	;# 
+   167  0002                     	;# 
+   168  0003                     	;# 
+   169  0004                     	;# 
+   170  0005                     	;# 
+   171  0006                     	;# 
+   172  0007                     	;# 
+   173  0008                     	;# 
+   174  0009                     	;# 
+   175  000A                     	;# 
+   176  000B                     	;# 
+   177  000C                     	;# 
+   178  0011                     	;# 
+   179  0012                     	;# 
+   180  0015                     	;# 
+   181  0016                     	;# 
    182  0016                     	;# 
-   183  0016                     	;# 
-   184  0017                     	;# 
-   185  0018                     	;# 
-   186  0019                     	;# 
-   187  001A                     	;# 
-   188  001B                     	;# 
-   189  001C                     	;# 
-   190  001E                     	;# 
-   191  001F                     	;# 
-   192  008C                     	;# 
-   193  0091                     	;# 
-   194  0092                     	;# 
-   195  0095                     	;# 
-   196  0096                     	;# 
-   197  0097                     	;# 
-   198  0098                     	;# 
-   199  0099                     	;# 
-   200  009A                     	;# 
+   183  0017                     	;# 
+   184  0018                     	;# 
+   185  0019                     	;# 
+   186  001A                     	;# 
+   187  001B                     	;# 
+   188  001C                     	;# 
+   189  001E                     	;# 
+   190  001F                     	;# 
+   191  008C                     	;# 
+   192  0091                     	;# 
+   193  0092                     	;# 
+   194  0095                     	;# 
+   195  0096                     	;# 
+   196  0097                     	;# 
+   197  0098                     	;# 
+   198  0099                     	;# 
+   199  009A                     	;# 
+   200  009B                     	;# 
    201  009B                     	;# 
-   202  009B                     	;# 
-   203  009C                     	;# 
-   204  009D                     	;# 
-   205  009E                     	;# 
-   206  010C                     	;# 
-   207  0111                     	;# 
-   208  0112                     	;# 
-   209  0115                     	;# 
-   210  0116                     	;# 
-   211  0117                     	;# 
-   212  0118                     	;# 
-   213  0119                     	;# 
-   214  011A                     	;# 
-   215  011B                     	;# 
+   202  009C                     	;# 
+   203  009D                     	;# 
+   204  009E                     	;# 
+   205  010C                     	;# 
+   206  0111                     	;# 
+   207  0112                     	;# 
+   208  0115                     	;# 
+   209  0116                     	;# 
+   210  0117                     	;# 
+   211  0118                     	;# 
+   212  0119                     	;# 
+   213  011A                     	;# 
+   214  011B                     	;# 
+   215  011D                     	;# 
    216  011D                     	;# 
-   217  011D                     	;# 
-   218  018C                     	;# 
+   217  018C                     	;# 
+   218  0191                     	;# 
    219  0191                     	;# 
-   220  0191                     	;# 
-   221  0192                     	;# 
+   220  0192                     	;# 
+   221  0193                     	;# 
    222  0193                     	;# 
    223  0193                     	;# 
-   224  0193                     	;# 
-   225  0194                     	;# 
-   226  0195                     	;# 
-   227  0196                     	;# 
-   228  0197                     	;# 
-   229  0199                     	;# 
-   230  019A                     	;# 
+   224  0194                     	;# 
+   225  0195                     	;# 
+   226  0196                     	;# 
+   227  0197                     	;# 
+   228  0199                     	;# 
+   229  019A                     	;# 
+   230  019B                     	;# 
    231  019B                     	;# 
    232  019B                     	;# 
    233  019B                     	;# 
-   234  019B                     	;# 
+   234  019C                     	;# 
    235  019C                     	;# 
-   236  019C                     	;# 
-   237  019D                     	;# 
-   238  019E                     	;# 
-   239  019F                     	;# 
-   240  020C                     	;# 
+   236  019D                     	;# 
+   237  019E                     	;# 
+   238  019F                     	;# 
+   239  020C                     	;# 
+   240  0211                     	;# 
    241  0211                     	;# 
-   242  0211                     	;# 
+   242  0212                     	;# 
    243  0212                     	;# 
-   244  0212                     	;# 
+   244  0213                     	;# 
    245  0213                     	;# 
-   246  0213                     	;# 
+   246  0214                     	;# 
    247  0214                     	;# 
-   248  0214                     	;# 
+   248  0215                     	;# 
    249  0215                     	;# 
    250  0215                     	;# 
-   251  0215                     	;# 
+   251  0216                     	;# 
    252  0216                     	;# 
-   253  0216                     	;# 
+   253  0217                     	;# 
    254  0217                     	;# 
-   255  0217                     	;# 
+   255  0291                     	;# 
    256  0291                     	;# 
-   257  0291                     	;# 
-   258  0292                     	;# 
-   259  0293                     	;# 
-   260  0294                     	;# 
+   257  0292                     	;# 
+   258  0293                     	;# 
+   259  0294                     	;# 
+   260  0295                     	;# 
    261  0295                     	;# 
-   262  0295                     	;# 
-   263  0296                     	;# 
-   264  0391                     	;# 
-   265  0392                     	;# 
-   266  0393                     	;# 
-   267  039A                     	;# 
-   268  039C                     	;# 
-   269  039D                     	;# 
-   270  039E                     	;# 
-   271  039F                     	;# 
-   272  0FE4                     	;# 
-   273  0FE5                     	;# 
-   274  0FE6                     	;# 
-   275  0FE7                     	;# 
-   276  0FE8                     	;# 
-   277  0FE9                     	;# 
-   278  0FEA                     	;# 
-   279  0FEB                     	;# 
-   280  0FED                     	;# 
-   281  0FEE                     	;# 
-   282  0FEF                     	;# 
-   283  000B                     _INTCONbits	set	11
-   284  008C                     _TRISAbits	set	140
-   285  009A                     _OSCSTATbits	set	154
-   286  0099                     _OSCCONbits	set	153
-   287  0462                     _TRISA2	set	1122
-   288  0461                     _TRISA1	set	1121
-   289  0211                     _SSPBUF	set	529
-   290  0214                     _SSPSTAT	set	532
-   291  0212                     _SSPADD	set	530
-   292  0216                     _SSPCON2	set	534
-   293  0215                     _SSPCON	set	533
-   294  020C                     _WPUAbits	set	524
-   295  10B4                     _ACKEN	set	4276
-   296  10B5                     _ACKDT	set	4277
-   297  10B3                     _RCEN	set	4275
-   298  10B2                     _PEN	set	4274
-   299  10B1                     _RSEN	set	4273
-   300  10B0                     _SEN	set	4272
-   301  0392                     _IOCANbits	set	914
+   262  0296                     	;# 
+   263  0391                     	;# 
+   264  0392                     	;# 
+   265  0393                     	;# 
+   266  039A                     	;# 
+   267  039C                     	;# 
+   268  039D                     	;# 
+   269  039E                     	;# 
+   270  039F                     	;# 
+   271  0FE4                     	;# 
+   272  0FE5                     	;# 
+   273  0FE6                     	;# 
+   274  0FE7                     	;# 
+   275  0FE8                     	;# 
+   276  0FE9                     	;# 
+   277  0FEA                     	;# 
+   278  0FEB                     	;# 
+   279  0FED                     	;# 
+   280  0FEE                     	;# 
+   281  0FEF                     	;# 
+   282  008C                     _TRISAbits	set	140
+   283  009A                     _OSCSTATbits	set	154
+   284  0099                     _OSCCONbits	set	153
+   285  019D                     _RCSTAbits	set	413
+   286  019B                     _SPBRG	set	411
+   287  019F                     _BAUDCONbits	set	415
+   288  019E                     _TXSTAbits	set	414
+   289  019A                     _TXREG	set	410
+   290                           
+   291                           	psect	cinit
+   292  07FD                     start_initialization:	
+   293                           ; #config settings
+   294                           
+   295  07FD                     __initialization:
+   296  07FD                     end_of_initialization:	
+   297                           ;End of C runtime variable initialization code
+   298                           
+   299  07FD                     __end_of__initialization:
+   300  07FD  0020               	movlb	0
+   301  07FE  3187  2FE5         	ljmp	_main	;jump to C main() function
    302                           
-   303                           	psect	cinit
-   304  07FD                     start_initialization:	
-   305                           ; #config settings
-   306                           
-   307  07FD                     __initialization:
-   308  07FD                     end_of_initialization:	
-   309                           ;End of C runtime variable initialization code
-   310                           
-   311  07FD                     __end_of__initialization:
-   312  07FD  0020               	movlb	0
-   313  07FE  3187  2FBF         	ljmp	_main	;jump to C main() function
+   303                           	psect	cstackCOMMON
+   304  0070                     __pcstackCOMMON:
+   305  0070                     ?_MCUinit:
+   306  0070                     ??_MCUinit:	
+   307                           ; 1 bytes @ 0x0
+   308                           
+   309  0070                     ?_OSCinit:	
+   310                           ; 1 bytes @ 0x0
+   311                           
+   312  0070                     ??_OSCinit:	
+   313                           ; 1 bytes @ 0x0
    314                           
-   315                           	psect	cstackCOMMON
-   316  0070                     __pcstackCOMMON:
-   317  0070                     ?_MCUinit:
-   318  0070                     ?_OSCinit:	
+   315  0070                     ?_IOinit:	
+   316                           ; 1 bytes @ 0x0
+   317                           
+   318  0070                     ??_IOinit:	
    319                           ; 1 bytes @ 0x0
    320                           
-   321  0070                     ??_OSCinit:	
+   321  0070                     ?_USARTinit:	
    322                           ; 1 bytes @ 0x0
    323                           
-   324  0070                     ?_IOinit:	
+   324  0070                     ??_USARTinit:	
    325                           ; 1 bytes @ 0x0
    326                           
-   327  0070                     ??_IOinit:	
+   327  0070                     ?_main:	
    328                           ; 1 bytes @ 0x0
    329                           
-   330  0070                     ?_INTinit:	
+   330  0070                     ??_main:	
    331                           ; 1 bytes @ 0x0
    332                           
-   333  0070                     ??_INTinit:	
+   333                           
    334                           ; 1 bytes @ 0x0
-   335                           
-   336  0070                     ?_I2C_Master_Init:	
-   337                           ; 1 bytes @ 0x0
-   338                           
-   339  0070                     ?_main:	
-   340                           ; 1 bytes @ 0x0
-   341                           
-   342  0070                     I2C_Master_Init@c:	
-   343                           ; 1 bytes @ 0x0
-   344                           
-   345                           
-   346                           ; 4 bytes @ 0x0
-   347  0070                     	ds	4
-   348  0074                     ??_MCUinit:
-   349  0074                     ??_I2C_Master_Init:	
-   350                           ; 1 bytes @ 0x4
-   351                           
-   352  0074                     ??_main:	
-   353                           ; 1 bytes @ 0x4
-   354                           
-   355                           
-   356                           	psect	maintext
-   357  07BF                     __pmaintext:	
-   358                           ; 1 bytes @ 0x4
-   359 ;;
-   360 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
-   361 ;;
-   362 ;; *************** function _main *****************
-   363 ;; Defined at:
-   364 ;;		line 25 in file "main.c"
-   365 ;; Parameters:    Size  Location     Type
-   366 ;;		None
-   367 ;; Auto vars:     Size  Location     Type
-   368 ;;		None
-   369 ;; Return value:  Size  Location     Type
-   370 ;;                  1    wreg      void 
-   371 ;; Registers used:
-   372 ;;		wreg, status,2, status,0, pclath, cstack
-   373 ;; Tracked objects:
-   374 ;;		On entry : B1F/0
-   375 ;;		On exit  : 0/0
-   376 ;;		Unchanged: 0/0
-   377 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
-   378 ;;      Params:         0       0       0       0
-   379 ;;      Locals:         0       0       0       0
-   380 ;;      Temps:          0       0       0       0
-   381 ;;      Totals:         0       0       0       0
-   382 ;;Total ram usage:        0 bytes
-   383 ;; Hardware stack levels required when called: 2
-   384 ;; This function calls:
-   385 ;;		_MCUinit
-   386 ;; This function is called by:
-   387 ;;		Startup code after reset
-   388 ;; This function uses a non-reentrant model
-   389 ;;
-   390                           
-   391                           
-   392                           ;psect for function _main
-   393  07BF                     _main:
-   394  07BF                     l777:	
-   395                           ;incstack = 0
-   396                           ; Regs used in _main: [wreg+status,2+status,0+pclath+cstack]
+   335  0070                     	ds	2
+   336                           
+   337                           	psect	maintext
+   338  07E5                     __pmaintext:	
+   339 ;;
+   340 ;;Main: autosize = 0, tempsize = 2, incstack = 0, save=0
+   341 ;;
+   342 ;; *************** function _main *****************
+   343 ;; Defined at:
+   344 ;;		line 29 in file "main.c"
+   345 ;; Parameters:    Size  Location     Type
+   346 ;;		None
+   347 ;; Auto vars:     Size  Location     Type
+   348 ;;		None
+   349 ;; Return value:  Size  Location     Type
+   350 ;;                  1    wreg      void 
+   351 ;; Registers used:
+   352 ;;		wreg, status,2, status,0, pclath, cstack
+   353 ;; Tracked objects:
+   354 ;;		On entry : B1F/0
+   355 ;;		On exit  : 0/0
+   356 ;;		Unchanged: 0/0
+   357 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
+   358 ;;      Params:         0       0       0       0
+   359 ;;      Locals:         0       0       0       0
+   360 ;;      Temps:          2       0       0       0
+   361 ;;      Totals:         2       0       0       0
+   362 ;;Total ram usage:        2 bytes
+   363 ;; Hardware stack levels required when called: 2
+   364 ;; This function calls:
+   365 ;;		_MCUinit
+   366 ;; This function is called by:
+   367 ;;		Startup code after reset
+   368 ;; This function uses a non-reentrant model
+   369 ;;
+   370                           
+   371                           
+   372                           ;psect for function _main
+   373  07E5                     _main:
+   374  07E5                     l681:	
+   375                           ;incstack = 0
+   376                           ; Regs used in _main: [wreg+status,2+status,0+pclath+cstack]
+   377                           
+   378                           
+   379                           ;main.c: 31:     MCUinit();
+   380  07E5  3187  27CD  3187   	fcall	_MCUinit
+   381  07E8                     l683:
+   382                           
+   383                           ;main.c: 35:   {;main.c: 48:       TXREG = 'a';
+   384  07E8  3061               	movlw	97
+   385  07E9  0023               	movlb	3	; select bank3
+   386  07EA  009A               	movwf	26	;volatile
+   387  07EB                     l32:	
+   388                           ;main.c: 49:       while(TXSTAbits.TRMT);
+   389                           
+   390  07EB  189E               	btfsc	30,1	;volatile
+   391  07EC  2FEE               	goto	u21
+   392  07ED  2FEF               	goto	u20
+   393  07EE                     u21:
+   394  07EE  2FEB               	goto	l32
+   395  07EF                     u20:
+   396  07EF                     l685:
    397                           
-   398                           
-   399                           ;main.c: 27:     MCUinit();
-   400  07BF  3187  27E8  3187   	fcall	_MCUinit
-   401  07C2                     l53:	
-   402                           ;main.c: 30:   while(1)
-   403                           
-   404  07C2                     l54:	
-   405                           ;main.c: 31:   {;main.c: 45:     }
-   406                           
-   407  07C2  2FC2               	goto	l53
-   408  07C3  3180  2802         	ljmp	start
-   409  07C5                     __end_of_main:
-   410                           
-   411                           	psect	text1
-   412  07E8                     __ptext1:	
-   413 ;; *************** function _MCUinit *****************
-   414 ;; Defined at:
-   415 ;;		line 49 in file "main.c"
-   416 ;; Parameters:    Size  Location     Type
-   417 ;;		None
-   418 ;; Auto vars:     Size  Location     Type
-   419 ;;		None
-   420 ;; Return value:  Size  Location     Type
-   421 ;;                  1    wreg      void 
-   422 ;; Registers used:
-   423 ;;		wreg, status,2, status,0, pclath, cstack
-   424 ;; Tracked objects:
-   425 ;;		On entry : 0/0
-   426 ;;		On exit  : 0/0
-   427 ;;		Unchanged: 0/0
-   428 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
-   429 ;;      Params:         0       0       0       0
-   430 ;;      Locals:         0       0       0       0
-   431 ;;      Temps:          0       0       0       0
-   432 ;;      Totals:         0       0       0       0
-   433 ;;Total ram usage:        0 bytes
-   434 ;; Hardware stack levels used: 1
-   435 ;; Hardware stack levels required when called: 1
-   436 ;; This function calls:
-   437 ;;		_I2C_Master_Init
-   438 ;;		_INTinit
-   439 ;;		_IOinit
-   440 ;;		_OSCinit
-   441 ;; This function is called by:
-   442 ;;		_main
-   443 ;; This function uses a non-reentrant model
-   444 ;;
-   445                           
-   446                           
-   447                           ;psect for function _MCUinit
-   448  07E8                     _MCUinit:
-   449  07E8                     l771:	
-   450                           ;incstack = 0
-   451                           ; Regs used in _MCUinit: [wreg+status,2+status,0+pclath+cstack]
-   452                           
-   453                           
-   454                           ;main.c: 50:     OSCinit();
-   455  07E8  3187  27DA  3187   	fcall	_OSCinit
-   456  07EB                     l773:
-   457                           
-   458                           ;main.c: 51:     IOinit();
-   459  07EB  3187  27C5  3187   	fcall	_IOinit
-   460  07EE                     l775:
-   461                           
-   462                           ;main.c: 52:     INTinit();
-   463  07EE  3187  27BB  3187   	fcall	_INTinit
+   398                           ;main.c: 50:     _delay((unsigned long)((1000)*(4000000/4000.0)));
+   399  07EF  3006               	movlw	6
+   400  07F0  00F1               	movwf	??_main+1
+   401  07F1  3013               	movlw	19
+   402  07F2  00F0               	movwf	??_main
+   403  07F3  30AE               	movlw	174
+   404  07F4                     u37:
+   405  07F4  0B89               	decfsz	9,f
+   406  07F5  2FF4               	goto	u37
+   407  07F6  0BF0               	decfsz	??_main,f
+   408  07F7  2FF4               	goto	u37
+   409  07F8  0BF1               	decfsz	??_main+1,f
+   410  07F9  2FF4               	goto	u37
+   411  07FA  2FE8               	goto	l683
+   412  07FB  3180  2802         	ljmp	start
+   413  07FD                     __end_of_main:
+   414                           
+   415                           	psect	text1
+   416  07CD                     __ptext1:	
+   417 ;; *************** function _MCUinit *****************
+   418 ;; Defined at:
+   419 ;;		line 56 in file "main.c"
+   420 ;; Parameters:    Size  Location     Type
+   421 ;;		None
+   422 ;; Auto vars:     Size  Location     Type
+   423 ;;		None
+   424 ;; Return value:  Size  Location     Type
+   425 ;;                  1    wreg      void 
+   426 ;; Registers used:
+   427 ;;		wreg, status,2, status,0, pclath, cstack
+   428 ;; Tracked objects:
+   429 ;;		On entry : 0/0
+   430 ;;		On exit  : 0/0
+   431 ;;		Unchanged: 0/0
+   432 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
+   433 ;;      Params:         0       0       0       0
+   434 ;;      Locals:         0       0       0       0
+   435 ;;      Temps:          0       0       0       0
+   436 ;;      Totals:         0       0       0       0
+   437 ;;Total ram usage:        0 bytes
+   438 ;; Hardware stack levels used: 1
+   439 ;; Hardware stack levels required when called: 1
+   440 ;; This function calls:
+   441 ;;		_IOinit
+   442 ;;		_OSCinit
+   443 ;;		_USARTinit
+   444 ;; This function is called by:
+   445 ;;		_main
+   446 ;; This function uses a non-reentrant model
+   447 ;;
+   448                           
+   449                           
+   450                           ;psect for function _MCUinit
+   451  07CD                     _MCUinit:
+   452  07CD                     l675:	
+   453                           ;incstack = 0
+   454                           ; Regs used in _MCUinit: [wreg+status,2+status,0+pclath+cstack]
+   455                           
+   456                           
+   457                           ;main.c: 57:     OSCinit();
+   458  07CD  3187  27D7  3187   	fcall	_OSCinit
+   459  07D0                     l677:
+   460                           
+   461                           ;main.c: 58:     IOinit();
+   462  07D0  3187  27C0  3187   	fcall	_IOinit
+   463  07D3                     l679:
    464                           
-   465                           ;main.c: 53:     I2C_Master_Init(100000);
-   466  07F1  3000               	movlw	0
-   467  07F2  00F3               	movwf	I2C_Master_Init@c+3
-   468  07F3  3001               	movlw	1
-   469  07F4  00F2               	movwf	I2C_Master_Init@c+2
-   470  07F5  3086               	movlw	134
-   471  07F6  00F1               	movwf	I2C_Master_Init@c+1
-   472  07F7  30A0               	movlw	160
-   473  07F8  00F0               	movwf	I2C_Master_Init@c
-   474  07F9  3187  27CF  3187   	fcall	_I2C_Master_Init
-   475  07FC                     l59:
-   476  07FC  0008               	return
-   477  07FD                     __end_of_MCUinit:
-   478                           
-   479                           	psect	text2
-   480  07DA                     __ptext2:	
-   481 ;; *************** function _OSCinit *****************
-   482 ;; Defined at:
-   483 ;;		line 56 in file "main.c"
-   484 ;; Parameters:    Size  Location     Type
-   485 ;;		None
-   486 ;; Auto vars:     Size  Location     Type
-   487 ;;		None
-   488 ;; Return value:  Size  Location     Type
-   489 ;;                  1    wreg      void 
-   490 ;; Registers used:
-   491 ;;		wreg, status,2, status,0
-   492 ;; Tracked objects:
-   493 ;;		On entry : 0/0
-   494 ;;		On exit  : 0/0
-   495 ;;		Unchanged: 0/0
-   496 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
-   497 ;;      Params:         0       0       0       0
-   498 ;;      Locals:         0       0       0       0
-   499 ;;      Temps:          0       0       0       0
-   500 ;;      Totals:         0       0       0       0
-   501 ;;Total ram usage:        0 bytes
-   502 ;; Hardware stack levels used: 1
-   503 ;; This function calls:
-   504 ;;		Nothing
-   505 ;; This function is called by:
-   506 ;;		_MCUinit
-   507 ;; This function uses a non-reentrant model
-   508 ;;
+   465                           ;main.c: 60:     USARTinit();
+   466  07D3  3187  27C4  3187   	fcall	_USARTinit
+   467  07D6                     l40:
+   468  07D6  0008               	return
+   469  07D7                     __end_of_MCUinit:
+   470                           
+   471                           	psect	text2
+   472  07C4                     __ptext2:	
+   473 ;; *************** function _USARTinit *****************
+   474 ;; Defined at:
+   475 ;;		line 90 in file "main.c"
+   476 ;; Parameters:    Size  Location     Type
+   477 ;;		None
+   478 ;; Auto vars:     Size  Location     Type
+   479 ;;		None
+   480 ;; Return value:  Size  Location     Type
+   481 ;;                  1    wreg      void 
+   482 ;; Registers used:
+   483 ;;		wreg
+   484 ;; Tracked objects:
+   485 ;;		On entry : 0/0
+   486 ;;		On exit  : 0/0
+   487 ;;		Unchanged: 0/0
+   488 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
+   489 ;;      Params:         0       0       0       0
+   490 ;;      Locals:         0       0       0       0
+   491 ;;      Temps:          0       0       0       0
+   492 ;;      Totals:         0       0       0       0
+   493 ;;Total ram usage:        0 bytes
+   494 ;; Hardware stack levels used: 1
+   495 ;; This function calls:
+   496 ;;		Nothing
+   497 ;; This function is called by:
+   498 ;;		_MCUinit
+   499 ;; This function uses a non-reentrant model
+   500 ;;
+   501                           
+   502                           
+   503                           ;psect for function _USARTinit
+   504  07C4                     _USARTinit:
+   505  07C4                     l667:	
+   506                           ;incstack = 0
+   507                           ; Regs used in _USARTinit: [wreg]
+   508                           
    509                           
-   510                           
-   511                           ;psect for function _OSCinit
-   512  07DA                     _OSCinit:
-   513  07DA                     l703:	
-   514                           ;incstack = 0
-   515                           ; Regs used in _OSCinit: [wreg+status,2+status,0]
+   510                           ;main.c: 91:     TXSTAbits.SYNC = 0;
+   511  07C4  0023               	movlb	3	; select bank3
+   512  07C5  121E               	bcf	30,4	;volatile
+   513                           
+   514                           ;main.c: 92:     TXSTAbits.BRGH = 1;
+   515  07C6  151E               	bsf	30,2	;volatile
    516                           
-   517                           
-   518                           ;main.c: 57:     OSCCONbits.SCS = 0B10;
-   519  07DA  0021               	movlb	1	; select bank1
-   520  07DB  0819               	movf	25,w	;volatile
-   521  07DC  39FC               	andlw	-4
-   522  07DD  3802               	iorlw	2
-   523  07DE  0099               	movwf	25	;volatile
-   524                           
-   525                           ;main.c: 58:     OSCCONbits.IRCF = 0B1101;
-   526  07DF  0819               	movf	25,w	;volatile
-   527  07E0  3987               	andlw	-121
-   528  07E1  3868               	iorlw	104
-   529  07E2  0099               	movwf	25	;volatile
-   530  07E3                     l62:	
-   531                           ;main.c: 59:     while(OSCSTATbits.HFIOFS != 1);
-   532                           
-   533  07E3  1C1A               	btfss	26,0	;volatile
-   534  07E4  2FE6               	goto	u11
-   535  07E5  2FE7               	goto	u10
-   536  07E6                     u11:
-   537  07E6  2FE3               	goto	l62
-   538  07E7                     u10:
-   539  07E7                     l65:
-   540  07E7  0008               	return
-   541  07E8                     __end_of_OSCinit:
-   542                           
-   543                           	psect	text3
-   544  07C5                     __ptext3:	
-   545 ;; *************** function _IOinit *****************
-   546 ;; Defined at:
-   547 ;;		line 62 in file "main.c"
-   548 ;; Parameters:    Size  Location     Type
-   549 ;;		None
-   550 ;; Auto vars:     Size  Location     Type
-   551 ;;		None
-   552 ;; Return value:  Size  Location     Type
-   553 ;;                  1    wreg      void 
-   554 ;; Registers used:
-   555 ;;		None
-   556 ;; Tracked objects:
-   557 ;;		On entry : 0/0
-   558 ;;		On exit  : 0/0
-   559 ;;		Unchanged: 0/0
-   560 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
-   561 ;;      Params:         0       0       0       0
-   562 ;;      Locals:         0       0       0       0
-   563 ;;      Temps:          0       0       0       0
-   564 ;;      Totals:         0       0       0       0
-   565 ;;Total ram usage:        0 bytes
-   566 ;; Hardware stack levels used: 1
-   567 ;; This function calls:
-   568 ;;		Nothing
-   569 ;; This function is called by:
-   570 ;;		_MCUinit
-   571 ;; This function uses a non-reentrant model
-   572 ;;
+   517                           ;main.c: 93:     BAUDCONbits.BRG16 = 0;
+   518  07C7  119F               	bcf	31,3	;volatile
+   519  07C8                     l669:
+   520                           
+   521                           ;main.c: 94:     SPBRG = 25;
+   522  07C8  3019               	movlw	25
+   523  07C9  009B               	movwf	27	;volatile
+   524  07CA                     l671:
+   525                           
+   526                           ;main.c: 96:     RCSTAbits.SPEN = 1;
+   527  07CA  179D               	bsf	29,7	;volatile
+   528  07CB                     l673:
+   529                           
+   530                           ;main.c: 97:     TXSTAbits.TXEN = 1;
+   531  07CB  169E               	bsf	30,5	;volatile
+   532  07CC                     l55:
+   533  07CC  0008               	return
+   534  07CD                     __end_of_USARTinit:
+   535                           
+   536                           	psect	text3
+   537  07D7                     __ptext3:	
+   538 ;; *************** function _OSCinit *****************
+   539 ;; Defined at:
+   540 ;;		line 64 in file "main.c"
+   541 ;; Parameters:    Size  Location     Type
+   542 ;;		None
+   543 ;; Auto vars:     Size  Location     Type
+   544 ;;		None
+   545 ;; Return value:  Size  Location     Type
+   546 ;;                  1    wreg      void 
+   547 ;; Registers used:
+   548 ;;		wreg, status,2, status,0
+   549 ;; Tracked objects:
+   550 ;;		On entry : 0/0
+   551 ;;		On exit  : 0/0
+   552 ;;		Unchanged: 0/0
+   553 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
+   554 ;;      Params:         0       0       0       0
+   555 ;;      Locals:         0       0       0       0
+   556 ;;      Temps:          0       0       0       0
+   557 ;;      Totals:         0       0       0       0
+   558 ;;Total ram usage:        0 bytes
+   559 ;; Hardware stack levels used: 1
+   560 ;; This function calls:
+   561 ;;		Nothing
+   562 ;; This function is called by:
+   563 ;;		_MCUinit
+   564 ;; This function uses a non-reentrant model
+   565 ;;
+   566                           
+   567                           
+   568                           ;psect for function _OSCinit
+   569  07D7                     _OSCinit:
+   570  07D7                     l663:	
+   571                           ;incstack = 0
+   572                           ; Regs used in _OSCinit: [wreg+status,2+status,0]
    573                           
    574                           
-   575                           ;psect for function _IOinit
-   576  07C5                     _IOinit:
-   577  07C5                     l705:	
-   578                           ;incstack = 0
-   579                           ; Regs used in _IOinit: []
-   580                           
+   575                           ;main.c: 65:     OSCCONbits.SCS = 0B10;
+   576  07D7  0021               	movlb	1	; select bank1
+   577  07D8  0819               	movf	25,w	;volatile
+   578  07D9  39FC               	andlw	-4
+   579  07DA  3802               	iorlw	2
+   580  07DB  0099               	movwf	25	;volatile
    581                           
-   582                           ;main.c: 63:     TRISAbits.TRISA5 = 1;
-   583  07C5  0021               	movlb	1	; select bank1
-   584  07C6  168C               	bsf	12,5	;volatile
-   585                           
-   586                           ;main.c: 64:     TRISAbits.TRISA4 = 1;
-   587  07C7  160C               	bsf	12,4	;volatile
-   588                           
-   589                           ;main.c: 66:     WPUAbits.WPUA5 = 1;
-   590  07C8  0024               	movlb	4	; select bank4
-   591  07C9  168C               	bsf	12,5	;volatile
-   592                           
-   593                           ;main.c: 67:     WPUAbits.WPUA4 = 1;
-   594  07CA  160C               	bsf	12,4	;volatile
-   595                           
-   596                           ;main.c: 69:     IOCANbits.IOCAN5 = 1;
-   597  07CB  0027               	movlb	7	; select bank7
-   598  07CC  1692               	bsf	18,5	;volatile
+   582                           ;main.c: 66:     OSCCONbits.IRCF = 0B1101;
+   583  07DC  0819               	movf	25,w	;volatile
+   584  07DD  3987               	andlw	-121
+   585  07DE  3868               	iorlw	104
+   586  07DF  0099               	movwf	25	;volatile
+   587  07E0                     l43:	
+   588                           ;main.c: 67:     while(OSCSTATbits.HFIOFS != 1);
+   589                           
+   590  07E0  1C1A               	btfss	26,0	;volatile
+   591  07E1  2FE3               	goto	u11
+   592  07E2  2FE4               	goto	u10
+   593  07E3                     u11:
+   594  07E3  2FE0               	goto	l43
+   595  07E4                     u10:
+   596  07E4                     l46:
+   597  07E4  0008               	return
+   598  07E5                     __end_of_OSCinit:
    599                           
-   600                           ;main.c: 70:     IOCANbits.IOCAN4 = 1;
-   601  07CD  1612               	bsf	18,4	;volatile
-   602  07CE                     l68:
-   603  07CE  0008               	return
-   604  07CF                     __end_of_IOinit:
-   605                           
-   606                           	psect	text4
-   607  07BB                     __ptext4:	
-   608 ;; *************** function _INTinit *****************
-   609 ;; Defined at:
-   610 ;;		line 73 in file "main.c"
-   611 ;; Parameters:    Size  Location     Type
+   600                           	psect	text4
+   601  07C0                     __ptext4:	
+   602 ;; *************** function _IOinit *****************
+   603 ;; Defined at:
+   604 ;;		line 70 in file "main.c"
+   605 ;; Parameters:    Size  Location     Type
+   606 ;;		None
+   607 ;; Auto vars:     Size  Location     Type
+   608 ;;		None
+   609 ;; Return value:  Size  Location     Type
+   610 ;;                  1    wreg      void 
+   611 ;; Registers used:
    612 ;;		None
-   613 ;; Auto vars:     Size  Location     Type
-   614 ;;		None
-   615 ;; Return value:  Size  Location     Type
-   616 ;;                  1    wreg      void 
-   617 ;; Registers used:
-   618 ;;		None
-   619 ;; Tracked objects:
-   620 ;;		On entry : 0/0
-   621 ;;		On exit  : 0/0
-   622 ;;		Unchanged: 0/0
-   623 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
-   624 ;;      Params:         0       0       0       0
-   625 ;;      Locals:         0       0       0       0
-   626 ;;      Temps:          0       0       0       0
-   627 ;;      Totals:         0       0       0       0
-   628 ;;Total ram usage:        0 bytes
-   629 ;; Hardware stack levels used: 1
-   630 ;; This function calls:
-   631 ;;		Nothing
-   632 ;; This function is called by:
-   633 ;;		_MCUinit
-   634 ;; This function uses a non-reentrant model
-   635 ;;
-   636                           
+   613 ;; Tracked objects:
+   614 ;;		On entry : 0/0
+   615 ;;		On exit  : 0/0
+   616 ;;		Unchanged: 0/0
+   617 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
+   618 ;;      Params:         0       0       0       0
+   619 ;;      Locals:         0       0       0       0
+   620 ;;      Temps:          0       0       0       0
+   621 ;;      Totals:         0       0       0       0
+   622 ;;Total ram usage:        0 bytes
+   623 ;; Hardware stack levels used: 1
+   624 ;; This function calls:
+   625 ;;		Nothing
+   626 ;; This function is called by:
+   627 ;;		_MCUinit
+   628 ;; This function uses a non-reentrant model
+   629 ;;
+   630                           
+   631                           
+   632                           ;psect for function _IOinit
+   633  07C0                     _IOinit:
+   634  07C0                     l665:	
+   635                           ;incstack = 0
+   636                           ; Regs used in _IOinit: []
    637                           
-   638                           ;psect for function _INTinit
-   639  07BB                     _INTinit:
-   640  07BB                     l707:	
-   641                           ;incstack = 0
-   642                           ; Regs used in _INTinit: []
-   643                           
-   644                           
-   645                           ;main.c: 74:     INTCONbits.IOCIE = 1;
-   646  07BB  158B               	bsf	11,3	;volatile
-   647                           
-   648                           ;main.c: 75:     INTCONbits.PEIE = 1;
-   649  07BC  170B               	bsf	11,6	;volatile
+   638                           
+   639                           ;main.c: 71:     TRISAbits.TRISA0 = 0;
+   640  07C0  0021               	movlb	1	; select bank1
+   641  07C1  100C               	bcf	12,0	;volatile
+   642                           
+   643                           ;main.c: 72:     TRISAbits.TRISA1 = 1;
+   644  07C2  148C               	bsf	12,1	;volatile
+   645  07C3                     l49:
+   646  07C3  0008               	return
+   647  07C4                     __end_of_IOinit:
+   648  007E                     btemp	set	126	;btemp
+   649  007E                     wtemp0	set	126
    650                           
-   651                           ;main.c: 76:     INTCONbits.GIE = 1;
-   652  07BD  178B               	bsf	11,7	;volatile
-   653  07BE                     l71:
-   654  07BE  0008               	return
-   655  07BF                     __end_of_INTinit:
-   656                           
-   657                           	psect	text5
-   658  07CF                     __ptext5:	
-   659 ;; *************** function _I2C_Master_Init *****************
-   660 ;; Defined at:
-   661 ;;		line 80 in file "main.c"
-   662 ;; Parameters:    Size  Location     Type
-   663 ;;  c               4    0[COMMON] const unsigned long 
-   664 ;; Auto vars:     Size  Location     Type
-   665 ;;		None
-   666 ;; Return value:  Size  Location     Type
-   667 ;;                  1    wreg      void 
-   668 ;; Registers used:
-   669 ;;		wreg, status,2
-   670 ;; Tracked objects:
-   671 ;;		On entry : 0/0
-   672 ;;		On exit  : 0/0
-   673 ;;		Unchanged: 0/0
-   674 ;; Data sizes:     COMMON   BANK0   BANK1   BANK2
-   675 ;;      Params:         4       0       0       0
-   676 ;;      Locals:         0       0       0       0
-   677 ;;      Temps:          0       0       0       0
-   678 ;;      Totals:         4       0       0       0
-   679 ;;Total ram usage:        4 bytes
-   680 ;; Hardware stack levels used: 1
-   681 ;; This function calls:
-   682 ;;		Nothing
-   683 ;; This function is called by:
-   684 ;;		_MCUinit
-   685 ;; This function uses a non-reentrant model
-   686 ;;
-   687                           
-   688                           
-   689                           ;psect for function _I2C_Master_Init
-   690  07CF                     _I2C_Master_Init:
-   691  07CF                     l761:	
-   692                           ;incstack = 0
-   693                           ; Regs used in _I2C_Master_Init: [wreg+status,2]
-   694                           
-   695                           
-   696                           ;main.c: 80: void I2C_Master_Init(const unsigned long c);main.c: 81: {;main.c: 82:   SSP
-      +                          CON = 0b00101000;
-   697  07CF  3028               	movlw	40
-   698  07D0  0024               	movlb	4	; select bank4
-   699  07D1  0095               	movwf	21	;volatile
-   700  07D2                     l763:
-   701                           
-   702                           ;main.c: 83:   SSPCON2 = 0;
-   703  07D2  0196               	clrf	22	;volatile
-   704  07D3                     l765:
-   705                           
-   706                           ;main.c: 84:   SSPADD = 0x09;
-   707  07D3  3009               	movlw	9
-   708  07D4  0092               	movwf	18	;volatile
-   709                           
-   710                           ;main.c: 85:   SSPSTAT = 0;
-   711  07D5  0194               	clrf	20	;volatile
-   712  07D6                     l767:
-   713                           
-   714                           ;main.c: 86:   TRISA1 = 1;
-   715  07D6  0021               	movlb	1	; select bank1
-   716  07D7  148C               	bsf	12,1	;volatile
-   717  07D8                     l769:
-   718                           
-   719                           ;main.c: 87:   TRISA2 = 1;
-   720  07D8  150C               	bsf	12,2	;volatile
-   721  07D9                     l74:
-   722  07D9  0008               	return
-   723  07DA                     __end_of_I2C_Master_Init:
-   724  007E                     btemp	set	126	;btemp
-   725  007E                     wtemp0	set	126
-   726                           
-   727                           	psect	config
-   728                           
-   729                           ;Config register CONFIG1 @ 0x8007
-   730                           ;	Oscillator Selection
-   731                           ;	FOSC = INTOSC, INTOSC oscillator: I/O function on CLKIN pin
-   732                           ;	Watchdog Timer Enable
-   733                           ;	WDTE = OFF, WDT disabled
-   734                           ;	Power-up Timer Enable
-   735                           ;	PWRTE = OFF, PWRT disabled
-   736                           ;	MCLR Pin Function Select
-   737                           ;	MCLRE = OFF, MCLR/VPP pin function is digital input
-   738                           ;	Flash Program Memory Code Protection
-   739                           ;	CP = OFF, Program memory code protection is disabled
-   740                           ;	Data Memory Code Protection
-   741                           ;	CPD = OFF, Data memory code protection is disabled
-   742                           ;	Brown-out Reset Enable
-   743                           ;	BOREN = OFF, Brown-out Reset disabled
-   744                           ;	Clock Out Enable
-   745                           ;	CLKOUTEN = OFF, CLKOUT function is disabled. I/O or oscillator function on the CLKOUT 
+   651                           	psect	config
+   652                           
+   653                           ;Config register CONFIG1 @ 0x8007
+   654                           ;	Oscillator Selection
+   655                           ;	FOSC = INTOSC, INTOSC oscillator: I/O function on CLKIN pin
+   656                           ;	Watchdog Timer Enable
+   657                           ;	WDTE = OFF, WDT disabled
+   658                           ;	Power-up Timer Enable
+   659                           ;	PWRTE = OFF, PWRT disabled
+   660                           ;	MCLR Pin Function Select
+   661                           ;	MCLRE = OFF, MCLR/VPP pin function is digital input
+   662                           ;	Flash Program Memory Code Protection
+   663                           ;	CP = OFF, Program memory code protection is disabled
+   664                           ;	Data Memory Code Protection
+   665                           ;	CPD = OFF, Data memory code protection is disabled
+   666                           ;	Brown-out Reset Enable
+   667                           ;	BOREN = OFF, Brown-out Reset disabled
+   668                           ;	Clock Out Enable
+   669                           ;	CLKOUTEN = OFF, CLKOUT function is disabled. I/O or oscillator function on the CLKOUT 
       +                          pin
-   746                           ;	Internal/External Switchover
-   747                           ;	IESO = OFF, Internal/External Switchover mode is disabled
-   748                           ;	Fail-Safe Clock Monitor Enable
-   749                           ;	FCMEN = OFF, Fail-Safe Clock Monitor is disabled
-   750  8007                     	org	32775
-   751  8007  09A4               	dw	2468
-   752                           
-   753                           ;Config register CONFIG2 @ 0x8008
-   754                           ;	Flash Memory Self-Write Protection
-   755                           ;	WRT = OFF, Write protection off
-   756                           ;	PLL Enable
-   757                           ;	PLLEN = OFF, 4x PLL disabled
-   758                           ;	Stack Overflow/Underflow Reset Enable
-   759                           ;	STVREN = OFF, Stack Overflow or Underflow will not cause a Reset
-   760                           ;	Brown-out Reset Voltage Selection
-   761                           ;	BORV = LO, Brown-out Reset Voltage (Vbor), low trip point selected.
-   762                           ;	Low-Voltage Programming Enable
-   763                           ;	LVP = OFF, High-voltage on MCLR/VPP must be used for programming
-   764  8008                     	org	32776
-   765  8008  1CFF               	dw	7423
+   670                           ;	Internal/External Switchover
+   671                           ;	IESO = OFF, Internal/External Switchover mode is disabled
+   672                           ;	Fail-Safe Clock Monitor Enable
+   673                           ;	FCMEN = OFF, Fail-Safe Clock Monitor is disabled
+   674  8007                     	org	32775
+   675  8007  09A4               	dw	2468
+   676                           
+   677                           ;Config register CONFIG2 @ 0x8008
+   678                           ;	Flash Memory Self-Write Protection
+   679                           ;	WRT = OFF, Write protection off
+   680                           ;	PLL Enable
+   681                           ;	PLLEN = OFF, 4x PLL disabled
+   682                           ;	Stack Overflow/Underflow Reset Enable
+   683                           ;	STVREN = OFF, Stack Overflow or Underflow will not cause a Reset
+   684                           ;	Brown-out Reset Voltage Selection
+   685                           ;	BORV = LO, Brown-out Reset Voltage (Vbor), low trip point selected.
+   686                           ;	Low-Voltage Programming Enable
+   687                           ;	LVP = OFF, High-voltage on MCLR/VPP must be used for programming
+   688  8008                     	org	32776
+   689  8008  1CFF               	dw	7423
 
 Data Sizes:
     Strings     0
@@ -790,7 +713,7 @@ Data Sizes:
 
 Auto Spaces:
     Space          Size  Autos    Used
-    COMMON           14      4       4
+    COMMON           14      2       2
     BANK0            80      0       0
     BANK1            80      0       0
     BANK2            80      0       0
@@ -801,7 +724,7 @@ Pointer List with Targets:
 
 Critical Paths under _main in COMMON
 
-    _MCUinit->_I2C_Master_Init
+    None.
 
 Critical Paths under _main in BANK0
 
@@ -820,23 +743,20 @@ Call Graph Tables:
  ---------------------------------------------------------------------------------
  (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
  ---------------------------------------------------------------------------------
- (0) _main                                                 0     0      0      76
+ (0) _main                                                 2     2      0       0
+                                              0 COMMON     2     2      0
                             _MCUinit
  ---------------------------------------------------------------------------------
- (1) _MCUinit                                              0     0      0      76
-                    _I2C_Master_Init
-                            _INTinit
+ (1) _MCUinit                                              0     0      0       0
                              _IOinit
                             _OSCinit
+                          _USARTinit
+ ---------------------------------------------------------------------------------
+ (2) _USARTinit                                            0     0      0       0
  ---------------------------------------------------------------------------------
  (2) _OSCinit                                              0     0      0       0
  ---------------------------------------------------------------------------------
  (2) _IOinit                                               0     0      0       0
- ---------------------------------------------------------------------------------
- (2) _INTinit                                              0     0      0       0
- ---------------------------------------------------------------------------------
- (2) _I2C_Master_Init                                      4     0      4      76
-                                              0 COMMON     4     0      4
  ---------------------------------------------------------------------------------
  Estimated maximum stack depth 2
  ---------------------------------------------------------------------------------
@@ -845,10 +765,9 @@ Call Graph Tables:
 
  _main (ROOT)
    _MCUinit
-     _I2C_Master_Init
-     _INTinit
      _IOinit
      _OSCinit
+     _USARTinit
 
  Address spaces:
 Name               Size   Autos  Total    Cost      Usage
@@ -859,7 +778,7 @@ CODE                 0      0       0       0        0.0%
 BITCOMMON            E      0       0       1        0.0%
 BITSFR0              0      0       0       1        0.0%
 SFR0                 0      0       0       1        0.0%
-COMMON               E      4       4       2       28.6%
+COMMON               E      2       2       2       14.3%
 BITSFR1              0      0       0       2        0.0%
 SFR1                 0      0       0       2        0.0%
 BITSFR2              0      0       0       3        0.0%
@@ -934,34 +853,29 @@ SFR31                0      0       0      32        0.0%
 
 
 Microchip Technology PIC Macro Assembler V2.32 build 20210201212658 
-Symbol Table                                                                                   Sun Sep 12 21:57:48 2021
+Symbol Table                                                                                   Sun Sep 19 00:29:19 2021
 
-                      l53 07C2                        l62 07E3                        l54 07C2  
-                      l71 07BE                        l65 07E7                        l74 07D9  
-                      l59 07FC                        l68 07CE                        u10 07E7  
-                      u11 07E6                       l703 07DA                       l705 07C5  
-                     l707 07BB                       l761 07CF                       l763 07D2  
-                     l771 07E8                       l765 07D3                       l773 07EB  
-                     l767 07D6                       l775 07EE                       l769 07D8  
-                     l777 07BF                       _PEN 10B2                       _SEN 10B0  
-                    _RCEN 10B3                      _RSEN 10B1           __end_of_MCUinit 07FD  
-         __end_of_INTinit 07BF                      _main 07BF           __end_of_OSCinit 07E8  
-                    btemp 007E                      start 0002          ?_I2C_Master_Init 0070  
-                   ?_main 0070                     _ACKEN 10B4                     _ACKDT 10B5  
-                   wtemp0 007E           __initialization 07FD              __end_of_main 07C5  
-                  ??_main 0074                 ??_MCUinit 0074                 ??_INTinit 0070  
-               ??_OSCinit 0070                    _SSPADD 0212                    _TRISA1 0461  
-                  _TRISA2 0462                    _SSPCON 0215                    _SSPBUF 0211  
-                  _IOinit 07C5   __end_of__initialization 07FD            __pcstackCOMMON 0070  
-                 ?_IOinit 0070                __pmaintext 07BF                   _MCUinit 07E8  
-                 _INTinit 07BB                   _SSPCON2 0216                   _OSCinit 07DA  
-                 _SSPSTAT 0214           __size_of_IOinit 000A                   __ptext1 07E8  
-                 __ptext2 07DA                   __ptext3 07C5                   __ptext4 07BB  
-                 __ptext5 07CF  __size_of_I2C_Master_Init 000B                 _IOCANbits 0392  
-    end_of_initialization 07FD          I2C_Master_Init@c 0070                 _TRISAbits 008C  
-          __end_of_IOinit 07CF       start_initialization 07FD         ??_I2C_Master_Init 0074  
-                ??_IOinit 0070                 ___latbits 0001                  ?_MCUinit 0070  
-                ?_INTinit 0070                  ?_OSCinit 0070                  _WPUAbits 020C  
-        __size_of_MCUinit 0015          __size_of_INTinit 0004          __size_of_OSCinit 000E  
-         _I2C_Master_Init 07CF             __size_of_main 0006               _OSCSTATbits 009A  
-              _INTCONbits 000B                _OSCCONbits 0099   __end_of_I2C_Master_Init 07DA  
+                     l40 07D6                       l32 07EB                       l43 07E0  
+                     l46 07E4                       l55 07CC                       l49 07C3  
+                     u10 07E4                       u11 07E3                       u20 07EF  
+                     u21 07EE                       u37 07F4                      l663 07D7  
+                    l671 07CA                      l665 07C0                      l673 07CB  
+                    l681 07E5                      l667 07C4                      l675 07CD  
+                    l683 07E8                      l669 07C8                      l677 07D0  
+                    l685 07EF                      l679 07D3                      wreg 0009  
+        __end_of_MCUinit 07D7                     _main 07E5          __end_of_OSCinit 07E5  
+                   btemp 007E                     start 0002                    ?_main 0070  
+                  _SPBRG 019B                    _TXREG 019A                    wtemp0 007E  
+     __size_of_USARTinit 0009          __initialization 07FD             __end_of_main 07FD  
+                 ??_main 0070                ??_MCUinit 0070                ??_OSCinit 0070  
+                 _IOinit 07C0        __end_of_USARTinit 07CD  __end_of__initialization 07FD  
+         __pcstackCOMMON 0070                  ?_IOinit 0070               __pmaintext 07E5  
+                _MCUinit 07CD                  _OSCinit 07D7          __size_of_IOinit 0004  
+                __ptext1 07CD                  __ptext2 07C4                  __ptext3 07D7  
+                __ptext4 07C0     end_of_initialization 07FD                _RCSTAbits 019D  
+              _TRISAbits 008C                _USARTinit 07C4                _TXSTAbits 019E  
+         __end_of_IOinit 07C4              _BAUDCONbits 019F      start_initialization 07FD  
+             ?_USARTinit 0070                 ??_IOinit 0070                ___latbits 0001  
+               ?_MCUinit 0070                 ?_OSCinit 0070              ??_USARTinit 0070  
+       __size_of_MCUinit 000A         __size_of_OSCinit 000E            __size_of_main 0018  
+            _OSCSTATbits 009A               _OSCCONbits 0099  
