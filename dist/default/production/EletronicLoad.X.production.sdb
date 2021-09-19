@@ -11,21 +11,25 @@
 [v ___eecpymem __eecpymem `(v  1 e 1 0 ]
 "39
 [v ___memcpyee __memcpyee `(v  1 e 1 0 ]
-"31 K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+"35 K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
 [v _main main `(v  1 e 1 0 ]
-"60
+"67
 [v _MCUinit MCUinit `(v  1 e 1 0 ]
-"68
+"76
 [v _OSCinit OSCinit `(v  1 e 1 0 ]
-"74
+"82
 [v _IOinit IOinit `(v  1 e 1 0 ]
 "94
+[v _ADCinit ADCinit `(v  1 e 1 0 ]
+"109
+[v _AnalogRead AnalogRead `(i  1 e 2 0 ]
+"128
 [v _UARTinit UARTinit `(v  1 e 1 0 ]
-"105
+"138
 [v _UART_write UART_write `(v  1 e 1 0 ]
-"110
+"143
 [v _UART_writeStr UART_writeStr `(v  1 e 1 0 ]
-[s S105 . 1 `uc 1 TRISA0 1 0 :1:0 
+[s S113 . 1 `uc 1 TRISA0 1 0 :1:0 
 `uc 1 TRISA1 1 0 :1:1 
 `uc 1 TRISA2 1 0 :1:2 
 `uc 1 TRISA3 1 0 :1:3 
@@ -33,9 +37,9 @@
 `uc 1 TRISA5 1 0 :1:5 
 ]
 "1017 K:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC12-16F1xxx_DFP/1.2.63/xc8\pic\include\proc\pic12f1840.h
-[u S112 . 1 `S105 1 . 1 0 ]
-[v _TRISAbits TRISAbits `VES112  1 e 1 @140 ]
-[s S54 . 1 `uc 1 SCS0 1 0 :1:0 
+[u S120 . 1 `S113 1 . 1 0 ]
+[v _TRISAbits TRISAbits `VES120  1 e 1 @140 ]
+[s S62 . 1 `uc 1 SCS0 1 0 :1:0 
 `uc 1 SCS1 1 0 :1:1 
 `uc 1 . 1 0 :1:2 
 `uc 1 IRCF0 1 0 :1:3 
@@ -45,13 +49,13 @@
 `uc 1 SPLLEN 1 0 :1:7 
 ]
 "1427
-[s S63 . 1 `uc 1 SCS 1 0 :2:0 
+[s S71 . 1 `uc 1 SCS 1 0 :2:0 
 `uc 1 . 1 0 :1:2 
 `uc 1 IRCF 1 0 :4:3 
 ]
-[u S67 . 1 `S54 1 . 1 0 `S63 1 . 1 0 ]
-[v _OSCCONbits OSCCONbits `VES67  1 e 1 @153 ]
-[s S84 . 1 `uc 1 HFIOFS 1 0 :1:0 
+[u S75 . 1 `S62 1 . 1 0 `S71 1 . 1 0 ]
+[v _OSCCONbits OSCCONbits `VES75  1 e 1 @153 ]
+[s S92 . 1 `uc 1 HFIOFS 1 0 :1:0 
 `uc 1 LFIOFR 1 0 :1:1 
 `uc 1 MFIOFR 1 0 :1:2 
 `uc 1 HFIOFL 1 0 :1:3 
@@ -61,13 +65,74 @@
 `uc 1 T1OSCR 1 0 :1:7 
 ]
 "1494
-[u S93 . 1 `S84 1 . 1 0 ]
-[v _OSCSTATbits OSCSTATbits `VES93  1 e 1 @154 ]
+[u S101 . 1 `S92 1 . 1 0 ]
+[v _OSCSTATbits OSCSTATbits `VES101  1 e 1 @154 ]
+"1539
+[v _ADRES ADRES `VEus  1 e 2 @155 ]
+[s S150 . 1 `uc 1 ADON 1 0 :1:0 
+`uc 1 GO_nDONE 1 0 :1:1 
+`uc 1 CHS0 1 0 :1:2 
+`uc 1 CHS1 1 0 :1:3 
+`uc 1 CHS2 1 0 :1:4 
+`uc 1 CHS3 1 0 :1:5 
+`uc 1 CHS4 1 0 :1:6 
+]
+"1611
+[s S158 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 ADGO 1 0 :1:1 
+`uc 1 CHS 1 0 :5:2 
+]
+[s S162 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 GO 1 0 :1:1 
+]
+[u S165 . 1 `S150 1 . 1 0 `S158 1 . 1 0 `S162 1 . 1 0 ]
+[v _ADCON0bits ADCON0bits `VES165  1 e 1 @157 ]
+[s S213 . 1 `uc 1 ADPREF0 1 0 :1:0 
+`uc 1 ADPREF1 1 0 :1:1 
+`uc 1 . 1 0 :2:2 
+`uc 1 ADCS0 1 0 :1:4 
+`uc 1 ADCS1 1 0 :1:5 
+`uc 1 ADCS2 1 0 :1:6 
+`uc 1 ADFM 1 0 :1:7 
+]
+"1687
+[s S221 . 1 `uc 1 ADPREF 1 0 :2:0 
+`uc 1 . 1 0 :2:2 
+`uc 1 ADCS 1 0 :3:4 
+]
+[u S225 . 1 `S213 1 . 1 0 `S221 1 . 1 0 ]
+[v _ADCON1bits ADCON1bits `VES225  1 e 1 @158 ]
+[s S185 . 1 `uc 1 ADFVR0 1 0 :1:0 
+`uc 1 ADFVR1 1 0 :1:1 
+`uc 1 CDAFVR0 1 0 :1:2 
+`uc 1 CDAFVR1 1 0 :1:3 
+`uc 1 TSRNG 1 0 :1:4 
+`uc 1 TSEN 1 0 :1:5 
+`uc 1 FVRRDY 1 0 :1:6 
+`uc 1 FVREN 1 0 :1:7 
+]
+"1968
+[s S194 . 1 `uc 1 ADFVR 1 0 :2:0 
+`uc 1 CDAFVR 1 0 :2:2 
+]
+[u S197 . 1 `S185 1 . 1 0 `S194 1 . 1 0 ]
+[v _FVRCONbits FVRCONbits `VES197  1 e 1 @279 ]
+[s S130 . 1 `uc 1 ANSA0 1 0 :1:0 
+`uc 1 ANSA1 1 0 :1:1 
+`uc 1 ANSA2 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 ANSA4 1 0 :1:4 
+]
+"2412
+[s S136 . 1 `uc 1 ANSELA 1 0 :5:0 
+]
+[u S138 . 1 `S130 1 . 1 0 `S136 1 . 1 0 ]
+[v _ANSELAbits ANSELAbits `VES138  1 e 1 @396 ]
 "2690
 [v _TXREG TXREG `VEuc  1 e 1 @410 ]
 "2722
 [v _SPBRG SPBRG `VEuc  1 e 1 @411 ]
-[s S165 . 1 `uc 1 RX9D 1 0 :1:0 
+[s S285 . 1 `uc 1 RX9D 1 0 :1:0 
 `uc 1 OERR 1 0 :1:1 
 `uc 1 FERR 1 0 :1:2 
 `uc 1 ADDEN 1 0 :1:3 
@@ -77,9 +142,9 @@
 `uc 1 SPEN 1 0 :1:7 
 ]
 "2826
-[u S174 . 1 `S165 1 . 1 0 ]
-[v _RCSTAbits RCSTAbits `VES174  1 e 1 @413 ]
-[s S122 . 1 `uc 1 TX9D 1 0 :1:0 
+[u S294 . 1 `S285 1 . 1 0 ]
+[v _RCSTAbits RCSTAbits `VES294  1 e 1 @413 ]
+[s S242 . 1 `uc 1 TX9D 1 0 :1:0 
 `uc 1 TRMT 1 0 :1:1 
 `uc 1 BRGH 1 0 :1:2 
 `uc 1 SENDB 1 0 :1:3 
@@ -89,9 +154,9 @@
 `uc 1 CSRC 1 0 :1:7 
 ]
 "2888
-[u S131 . 1 `S122 1 . 1 0 ]
-[v _TXSTAbits TXSTAbits `VES131  1 e 1 @414 ]
-[s S143 . 1 `uc 1 ABDEN 1 0 :1:0 
+[u S251 . 1 `S242 1 . 1 0 ]
+[v _TXSTAbits TXSTAbits `VES251  1 e 1 @414 ]
+[s S263 . 1 `uc 1 ABDEN 1 0 :1:0 
 `uc 1 WUE 1 0 :1:1 
 `uc 1 . 1 0 :1:2 
 `uc 1 BRG16 1 0 :1:3 
@@ -101,44 +166,54 @@
 `uc 1 ABDOVF 1 0 :1:7 
 ]
 "2950
-[u S152 . 1 `S143 1 . 1 0 ]
-[v _BAUDCONbits BAUDCONbits `VES152  1 e 1 @415 ]
-"31 K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
+[u S272 . 1 `S263 1 . 1 0 ]
+[v _BAUDCONbits BAUDCONbits `VES272  1 e 1 @415 ]
+"35 K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"58
+"65
 } 0
-"110
+"143
 [v _UART_writeStr UART_writeStr `(v  1 e 1 0 ]
 {
 [v UART_writeStr@data data `*.25uc  1 p 2 1 ]
-"114
+"147
 } 0
-"105
+"138
 [v _UART_write UART_write `(v  1 e 1 0 ]
 {
 [v UART_write@c c `uc  1 a 1 wreg ]
 [v UART_write@c c `uc  1 a 1 wreg ]
 [v UART_write@c c `uc  1 a 1 0 ]
-"108
+"141
 } 0
-"60
+"67
 [v _MCUinit MCUinit `(v  1 e 1 0 ]
 {
-"66
+"74
 } 0
-"94
+"128
 [v _UARTinit UARTinit `(v  1 e 1 0 ]
 {
-"102
+"136
 } 0
-"68
+"76
 [v _OSCinit OSCinit `(v  1 e 1 0 ]
 {
-"72
+"80
 } 0
-"74
+"82
 [v _IOinit IOinit `(v  1 e 1 0 ]
 {
-"84
+"92
+} 0
+"94
+[v _ADCinit ADCinit `(v  1 e 1 0 ]
+{
+"107
+} 0
+"109
+[v _AnalogRead AnalogRead `(i  1 e 2 0 ]
+{
+"118
 } 0

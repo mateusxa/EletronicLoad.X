@@ -28,3 +28,5 @@
 #define _XTAL_FREQ 4000000
 
 #include <xc.h>
+#include <stdlib.h>
+#include <stdio.h>
