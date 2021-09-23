@@ -19,69 +19,64 @@ void UART_write(char c);            // Write on UART
 void UART_writeStr(char *data);     // Write string UART
 
 void ADCinit(void);                 // ADC setup
-int AnalogRead(void);          // 
+unsigned short AnalogRead(void);          // 
 
-/*
-// ------------------------------------------
-void I2C_Master_Init(const unsigned long c);
-void I2C_Master_Wait();
-void I2C_Master_Start();
-void I2C_Master_RepeatedStart();
-void I2C_Master_Stop();
-void I2C_Master_Write(unsigned char d);
-unsigned short I2C_Master_Read(unsigned short a);
-*/
+void I2Cinit(void);
+void I2C_start(void);
+void I2C_stop(void);
+void I2C_restart(void);
+void I2C_write(uint8_t data);
+
 
 void main(void) {
     
     MCUinit();
     
 
-  while(1)
-  {
-    
-      /*
-      I2C_Master_Start();         //Start condition
-    I2C_Master_Write(0x30);     //7 bit address + Write
-    I2C_Master_Write(PORTB);    //Write data
-    I2C_Master_Stop();          //Stop condition
-    __delay_ms(200);
-    I2C_Master_Start();         //Start condition
-    I2C_Master_Write(0x31);     //7 bit address + Read
-    PORTD = I2C_Master_Read(0); //Read + Acknowledge
-    I2C_Master_Stop();          //Stop condition
-    */
-      
-    
-    UART_writeStr("ABCD");
-    UART_write(0x0A);
-    UART_write(0x0D);
-    
-    AnalogRead();
+    while(1)
+    {
+
+        I2C_start();
+        I2C_write(0xC0);    //  Device Code (1100) - Address Bits (000) - Write (0)
+        I2C_write(0x07);    // 
+        I2C_write(0xFF);
+        I2C_stop();
+        
+    //UART_write(AnalogRead());
+    //UART_write(0x0A);
+    //UART_write(0x0D);
+
     __delay_ms(1000);
 
     }  
     return;
 }
 
+//----------------------------------------------------------------------
+// Main configuration function
 void MCUinit(void){
     OSCinit();
     IOinit();
     ADCinit();
     //INTinit();
     UARTinit();
-    //I2C_Master_Init(100000);      //Initialize I2C Master with 100KHz clock
+    I2Cinit();
+    
+    INTCONbits.GIE = 1;             // Enable General interrupts
 }
 
+//----------------------------------------------------------------------
+// OSCILLATOR configuration function
 void OSCinit(void){
     OSCCONbits.SCS = 0B10;              // 1x - Internal oscillator block
     OSCCONbits.IRCF = 0B1101;           // 1101 = 4 MHz HF
     while(OSCSTATbits.HFIOFS != 1);     // Wait for the clock to stabilize
 }
 
+//----------------------------------------------------------------------
+// IO PORTS configuration function
 void IOinit(void){
-    TRISAbits.TRISA0 = 0;
-    TRISAbits.TRISA1 = 1;
+    
     /*
     WPUAbits.WPUA5 = 1;
     WPUAbits.WPUA4 = 1;
@@ -91,6 +86,8 @@ void IOinit(void){
     */
 }
 
+//----------------------------------------------------------------------
+// ANALOG TO DIGITAL configuration function
 void ADCinit(void){
     
     TRISAbits.TRISA4 = 1;       // Setting pin to input    
@@ -106,15 +103,15 @@ void ADCinit(void){
     ADCON0bits.ADON = 1;        // Enable ADC
 }
 
-int AnalogRead(void){
-    int temp;
-    
+//----------------------------------------------------------------------
+// ANALOG read function
+unsigned short AnalogRead(void){
+
     __delay_us(5);              // Needed to wait 5 us for acquisition time
     ADCON0bits.GO_nDONE = 1;    // Start conversion
     while(ADCON0bits.GO_nDONE); // wait for conversion to finish
-    temp = ADRES;
     
-    return temp;
+    return ADRES;
 }
 
 void INTinit(void){
@@ -126,6 +123,7 @@ void INTinit(void){
 }
      
 void UARTinit(void){
+    TRISAbits.TRISA0 = 0;   // TX set as output
     TXSTAbits.SYNC = 0;     // Choose Asynchronous mode
     TXSTAbits.BRGH = 1;     // Select High speed Baud Rate Generator
     BAUDCONbits.BRG16 = 0;  // Select 8 bit Baud Rate Generator
@@ -145,63 +143,37 @@ void UART_writeStr(char *data){
        UART_write(*data++);
     }
 }
-/*
-// Initialize I2C Module as Master
-void I2C_Master_Init(const unsigned long c)
-{
-  SSPCON = 0b00101000;            //SSP Module as Master
-  SSPCON2 = 0;
-  SSPADD = 0x09;                    //Clock 4 MHz - 100 kHz
-  SSPSTAT = 0;
-  TRISA1 = 1;                   //Setting as input as given in datasheet
-  TRISA2 = 1;                   //Setting as input as given in datasheet
+
+void I2Cinit(void){
+    TRISAbits.TRISA1 = 1;       // Set RA1 - SCL - as input
+    TRISAbits.TRISA2 = 1;       // Set RA2 - SDA - as input
+    
+    SSP1CON1bits.SSPM = 0x08;   // Set I2C Master Mode, clock = Fosc/(4 * (SSP1ADD+1))
+    SSP1ADD = 0x09;             // Set Baud Rate as 100 kHz
+    SSP1CON1bits.SSPEN = 1;     // Enables the serial port and configure SDA and SCL    
 }
 
-// For Waiting
-void I2C_Master_Wait()
-{
-  while ((SSPSTAT & 0x04) || (SSPCON2 & 0x1F)); //Transmit is in progress
+void I2C_start(void){
+    SSP1CON2bits.SEN = 1;       // Generate start bit
+    while(!PIR1bits.SSP1IF);    // Wait for start bit to complete
+    PIR1bits.SSP1IF = 0;        // Clear Flag
 }
 
-// Start Condition
-void I2C_Master_Start()
-{
-  I2C_Master_Wait();    
-  SEN = 1;             //Initiate start condition
+void I2C_stop(void){
+    SSP1CON2bits.PEN = 1;       // Generate Stop bit
+    while(!PIR1bits.SSP1IF);    // Wait for Stop bit to complete
+    PIR1bits.SSP1IF = 0;        // Clear Flag
 }
 
-// Repeated Start
-void I2C_Master_RepeatedStart()
-{
-  I2C_Master_Wait();
-  RSEN = 1;           //Initiate repeated start condition
+void I2C_restart(void){
+    SSP1CON2bits.RSEN = 1;      // Generate ReStart bit
+    while(!PIR1bits.SSP1IF);    // Wait for ReStart bit to complete
+    PIR1bits.SSP1IF = 0;        // Clear Flag
 }
 
-// Stop Condition
-void I2C_Master_Stop()
-{
-  I2C_Master_Wait();
-  PEN = 1;           //Initiate stop condition
+void I2C_write(uint8_t data){
+    SSP1BUF = data;             // Write data on Buffer to be transmitted
+    while(!PIR1bits.SSP1IF);    // Wait for start bit to complete
+    PIR1bits.SSP1IF = 0;        // Clear Flag
 }
 
-// Write Data
-void I2C_Master_Write(unsigned char d)
-{
-  I2C_Master_Wait();
-  SSPBUF = d;         //Write data to SSPBUF
-}
-
-// Read Data
-unsigned short I2C_Master_Read(unsigned short a)
-{
-  unsigned short temp;
-  I2C_Master_Wait();
-  RCEN = 1;
-  I2C_Master_Wait();
-  temp = SSPBUF;      //Read data from SSPBUF
-  I2C_Master_Wait();
-  ACKDT = (a)?0:1;    //Acknowledge bit
-  ACKEN = 1;          //Acknowledge sequence
-  return temp;
-}
-*/
