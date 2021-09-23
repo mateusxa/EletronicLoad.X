@@ -27,6 +27,8 @@ void I2C_stop(void);
 void I2C_restart(void);
 void I2C_write(uint8_t data);
 
+void DAC_write(uint16_t data);
+
 
 void main(void) {
     
@@ -36,17 +38,13 @@ void main(void) {
     while(1)
     {
 
-        I2C_start();
-        I2C_write(0xC0);    //  Device Code (1100) - Address Bits (000) - Write (0)
-        I2C_write(0x07);    // 
-        I2C_write(0xFF);
-        I2C_stop();
+        DAC_write(0x7FF);
         // teste de update
-    //UART_write(AnalogRead());
-    //UART_write(0x0A);
-    //UART_write(0x0D);
+        //UART_write(AnalogRead());
+        //UART_write(0x0A);
+        //UART_write(0x0D);
 
-    __delay_ms(1000);
+        __delay_ms(1000);
 
     }  
     return;
@@ -176,3 +174,10 @@ void I2C_write(uint8_t data){
     PIR1bits.SSP1IF = 0;        // Clear Flag
 }
 
+void DAC_write(uint16_t data){
+    I2C_start();            //  Send Start bit
+    I2C_write(0xC0);        //  Device Code (1100) - Address Bits (000) - Write (0)
+    I2C_write(data >> 8);   //  00 - Fast Mode Command | 00 - Vcc | Last Nimble data
+    I2C_write(0xFF & data); //  First and Second Nimble
+    I2C_stop();             //  Send Stop bit
+}
