@@ -61,7 +61,6 @@ void MCUinit(void){
     //INTinit();
     UARTinit();
     I2Cinit();
-    
     INTCONbits.GIE = 1;             // Enable General interrupts
 }
 

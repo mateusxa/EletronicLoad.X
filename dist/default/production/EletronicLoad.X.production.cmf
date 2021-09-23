@@ -11,7 +11,7 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
+$C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
 reset_vec CODE 0 0 0 2 2
 end_init CODE 0 2 2 2 2
 config CONFIG 4 8007 8007 2 2
@@ -102,11 +102,11 @@ STRING 800-FFF 2
 # All other numeric values are in decimal.
 %LINETAB
 $dist/default/production\EletronicLoad.X.production.o
-7FD cinit CODE >636:C:\Users\mateu\AppData\Local\Temp\xcAs9qg.s
-7FD cinit CODE >639:C:\Users\mateu\AppData\Local\Temp\xcAs9qg.s
-7FD cinit CODE >645:C:\Users\mateu\AppData\Local\Temp\xcAs9qg.s
-7FD cinit CODE >647:C:\Users\mateu\AppData\Local\Temp\xcAs9qg.s
-7FE cinit CODE >648:C:\Users\mateu\AppData\Local\Temp\xcAs9qg.s
+7FD cinit CODE >636:C:\Users\mateu\AppData\Local\Temp\xcAsftc.s
+7FD cinit CODE >639:C:\Users\mateu\AppData\Local\Temp\xcAsftc.s
+7FD cinit CODE >645:C:\Users\mateu\AppData\Local\Temp\xcAsftc.s
+7FD cinit CODE >647:C:\Users\mateu\AppData\Local\Temp\xcAsftc.s
+7FE cinit CODE >648:C:\Users\mateu\AppData\Local\Temp\xcAsftc.s
 76D text9 CODE >155:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
 76D text9 CODE >156:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
 76F text9 CODE >157:K:\GitRepositories\EletronicLoad\MPLAB\EletronicLoad.X\main.c
@@ -194,12 +194,12 @@ __end_of_IOinit EDA 0 CODE 0 text4 dist/default/production\EletronicLoad.X.produ
 __size_of_I2Cinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __Heeprom_data 0 0 EEDATA 3 eeprom_data -
 __Hstrings 0 0 ABS 0 strings -
-___sp 0 0 STACK 2 stack C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
+___sp 0 0 STACK 2 stack C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
 __end_of_I2C_start EEC 0 CODE 0 text9 dist/default/production\EletronicLoad.X.production.o
 _main FB4 0 CODE 0 maintext dist/default/production\EletronicLoad.X.production.o
 btemp 7E 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __end_of_I2C_write F14 0 CODE 0 text7 dist/default/production\EletronicLoad.X.production.o
-start 4 0 CODE 0 init C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
+start 4 0 CODE 0 init C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
 __size_of_I2C_start 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __size_of_I2C_write 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __size_of_main 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
@@ -207,12 +207,12 @@ __size_of_I2C_stop 0 0 ABS 0 - dist/default/production\EletronicLoad.X.productio
 __Hpowerup 0 0 CODE 0 powerup -
 _I2C_start EDA 0 CODE 0 text9 dist/default/production\EletronicLoad.X.production.o
 _I2C_write EFE 0 CODE 0 text7 dist/default/production\EletronicLoad.X.production.o
-intlevel0 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
-intlevel1 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
-intlevel2 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
-intlevel3 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
-intlevel4 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
-intlevel5 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
+intlevel0 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
+intlevel1 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
+intlevel2 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
+intlevel3 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
+intlevel4 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
+intlevel5 0 0 ENTRY 0 functab C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
 __size_of_OSCinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 _OSCCONbits 99 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 wtemp0 7E 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
@@ -226,15 +226,15 @@ __Lmaintext 0 0 ABS 0 maintext -
 _BAUDCONbits 19F 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __end_of_I2C_stop EFE 0 CODE 0 text8 dist/default/production\EletronicLoad.X.production.o
 _IOinit ED8 0 CODE 0 text4 dist/default/production\EletronicLoad.X.production.o
-___stackhi 20EF 0 ABS 0 - C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
-___stacklo 2000 0 ABS 0 - C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
+___stackhi 20EF 0 ABS 0 - C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
+___stacklo 2000 0 ABS 0 - C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
 start_initialization FFA 0 CODE 0 cinit dist/default/production\EletronicLoad.X.production.o
 __end_of_OSCinit F5E 0 CODE 0 text3 dist/default/production\EletronicLoad.X.production.o
 _TRISAbits 8C 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 _ADCinit F80 0 CODE 0 text6 dist/default/production\EletronicLoad.X.production.o
 __size_of_IOinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
 __size_of_MCUinit 0 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
-___int_sp 0 0 STACK 2 stack C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
+___int_sp 0 0 STACK 2 stack C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
 __Hbank0 0 0 ABS 0 bank0 -
 __Hbank1 0 0 ABS 0 bank1 -
 __Hbank2 0 0 ABS 0 bank2 -
@@ -364,7 +364,7 @@ __S1 73 0 ABS 0 - -
 __S2 0 0 ABS 0 - -
 __S3 0 0 ABS 0 - -
 __Lintentry 4 0 CODE 0 intentry -
-reset_vec 0 0 CODE 0 reset_vec C:\Users\mateu\AppData\Local\Temp\xcAs9qg.o
+reset_vec 0 0 CODE 0 reset_vec C:\Users\mateu\AppData\Local\Temp\xcAsftc.o
 __end_of_MCUinit F80 0 CODE 0 text1 dist/default/production\EletronicLoad.X.production.o
 _I2Cinit F2A 0 CODE 0 text5 dist/default/production\EletronicLoad.X.production.o
 _RCSTAbits 19D 0 ABS 0 - dist/default/production\EletronicLoad.X.production.o
