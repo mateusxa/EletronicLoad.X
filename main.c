@@ -41,7 +41,7 @@ void main(void) {
         I2C_write(0x07);    // 
         I2C_write(0xFF);
         I2C_stop();
-        
+        // teste de update
     //UART_write(AnalogRead());
     //UART_write(0x0A);
     //UART_write(0x0D);
