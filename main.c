@@ -8,6 +8,9 @@
 
 #include "xc8.h"
 
+#define RT_CLK      RA5
+#define RT_DT       RA4
+#define RT_SW       RA3
 
 void MCUinit(void);
 void OSCinit(void);
@@ -37,17 +40,23 @@ void main(void) {
 
     while(1)
     {
-
-        DAC_write(0x7FF);
-        // teste de update
-        //UART_write(AnalogRead());
-        //UART_write(0x0A);
-        //UART_write(0x0D);
-
+        
         __delay_ms(1000);
 
     }  
     return;
+}
+
+void __interrupt () Interruptions (void){
+    if(INTCONbits.IOCIE && INTCONbits.IOCIF){
+        if(!PORTAbits.RA3)
+            DAC_write(0xFFF);
+        
+        if(!PORTAbits.RA5)
+            DAC_write(0x000);
+        
+        INTCONbits.IOCIF = 0;       // Reset Flag
+    }
 }
 
 //----------------------------------------------------------------------
@@ -73,14 +82,32 @@ void OSCinit(void){
 //----------------------------------------------------------------------
 // IO PORTS configuration function
 void IOinit(void){
+
+    // Data Direction register
+    TRISAbits.TRISA3 = 1;       // Defining SW as input
+    TRISAbits.TRISA4 = 1;       // Defining DT as input
+    TRISAbits.TRISA5 = 1;       // Defining CLK as input
     
+    // Interrupt on change
+    IOCAFbits.IOCAF3 = 1;       // Enable Interrupt on SW
+    IOCAFbits.IOCAF5 = 1;       // Enable Interrupt on CLK
+    
+    // Edge Trigger
+    IOCANbits.IOCAN3 = 1;       // Set SW to trigger on positive edge
+    IOCANbits.IOCAN5 = 1;       // Set CLK to trigger on positive edge
+    
+    // Interruption
+    INTCONbits.PEIE = 1;        // Enable Peripheral Interrupt
+    INTCONbits.IOCIE = 1;       // Enable Interrupt on change 
+    
+}
+
+void INTinit(void){
     /*
-    WPUAbits.WPUA5 = 1;
-    WPUAbits.WPUA4 = 1;
-    
-    IOCANbits.IOCAN5 = 1;
-    IOCANbits.IOCAN4 = 1;
-    */
+    INTCONbits.IOCIE = 1;               
+    INTCONbits.PEIE = 1;                
+    INTCONbits.GIE = 1;    
+     * */             
 }
 
 //----------------------------------------------------------------------
@@ -109,14 +136,6 @@ unsigned short AnalogRead(void){
     while(ADCON0bits.GO_nDONE); // wait for conversion to finish
     
     return ADRES;
-}
-
-void INTinit(void){
-    /*
-    INTCONbits.IOCIE = 1;               
-    INTCONbits.PEIE = 1;                
-    INTCONbits.GIE = 1;    
-     * */             
 }
      
 void UARTinit(void){
