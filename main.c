@@ -29,17 +29,96 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm8s.h"
 
-/* Private defines -----------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
+void MCUinit(void);
+void CLKinit(void);
+void GPIOinit(void);
+void Delay_100us(void);
+void Delay_ms(unsigned int VezesT);
+
 
 void main(void)
 {
+
+  MCUinit();
   /* Infinite loop */
   while (1)
   {
+
+    GPIOC->ODR |= 0x08;
+    Delay_ms(1000);
+    GPIOC->ODR &= ~(0x08);
+    Delay_ms(1000);
   }
   
+}
+
+
+void MCUinit(void){
+  CLKinit();
+  GPIOinit();
+  Delay_ms(500);
+}
+
+void CLKinit(void){
+	CLK_DeInit();								                    // Reseta as config. de clock
+	
+  CLK->ICKR |= 0x01;                              // Enabling HSI -> 16MHz
+  while((CLK->ICKR & 0x02) != 0x02);              // Wait for HSI to be ready
+
+  CLK->SWCR |= 0x02;
+
+  CLK->SWR = 0xE1;
+
+  CLK->CKDIVR |= 0x12;                            // Master - HSI/4(10) -> 4 MHz | CPU - MAster/4 -> 1 MHz
+
+}
+
+void GPIOinit(void){
+
+  GPIO_DeInit(GPIOC);
+
+  GPIOC->DDR = 0x08;    // Set PC3 as Output
+
+  GPIOC->CR1 = 0xFF;
+
+  GPIOC->CR2 = 0;
+
+}
+
+//------------------------------------------------------------------------------
+// Tempo = 4cy + 2cy + 22*4cy + 5cy = 99cy => 99us
+
+void Delay_100us(void)
+{
+    __asm(  "push A\n"						
+            "ld A,#22\n"					
+            "start:	nop\n"							
+            "dec A\n"						
+            "jrne start\n"					
+            "pop A\n"						
+            "ret\n"
+         );
+}
+
+//------------------------------------------------------------------------------
+
+void Delay_ms(unsigned int VezesT)
+{
+	unsigned int i;
+	
+	for(i = 0; i < VezesT; i++)
+	{
+		Delay_100us();
+		Delay_100us();
+		Delay_100us();
+		Delay_100us();
+		Delay_100us();
+		Delay_100us();
+		Delay_100us();
+		Delay_100us();
+		Delay_100us();
+		Delay_100us();
+	}
 }
 
 #ifdef USE_FULL_ASSERT
