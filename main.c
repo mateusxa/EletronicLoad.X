@@ -38,7 +38,6 @@ void main(void)
   /* Infinite loop */
   while (1)
   {
-    teste 23
   }
   
 }
