@@ -34,7 +34,7 @@ void CLKinit(void);
 void GPIOinit(void);
 void Delay_100us(void);
 void Delay_ms(unsigned int VezesT);
-
+void BlinkLED(void);
 
 void main(void)
 {
@@ -44,46 +44,48 @@ void main(void)
   while (1)
   {
 
-    GPIOC->ODR |= 0x08;
-    Delay_ms(1000);
-    GPIOC->ODR &= ~(0x08);
-    Delay_ms(1000);
+    BlinkLED();
+    
+
   }
   
 }
 
 
 void MCUinit(void){
-  CLKinit();
-  GPIOinit();
-  Delay_ms(500);
+  CLKinit();                                      // Initializing clock configutation
+  GPIOinit();                                     // Initializing GPIO configuration
+  Delay_ms(500);                                  // Wait for registers to stable
 }
 
 void CLKinit(void){
-	CLK_DeInit();								                    // Reseta as config. de clock
+	CLK_DeInit();								                    // Reset Inital config
 	
   CLK->ICKR |= 0x01;                              // Enabling HSI -> 16MHz
   while((CLK->ICKR & 0x02) != 0x02);              // Wait for HSI to be ready
-
-  CLK->SWCR |= 0x02;
-
-  CLK->SWR = 0xE1;
-
+  CLK->SWCR |= 0x02;                              // Enable Switching Clock
+  CLK->SWR = 0xE1;                                // Select HSI as Master Clock
   CLK->CKDIVR |= 0x12;                            // Master - HSI/4(10) -> 4 MHz | CPU - MAster/4 -> 1 MHz
-
 }
 
 void GPIOinit(void){
-
-  GPIO_DeInit(GPIOC);
-
-  GPIOC->DDR = 0x08;    // Set PC3 as Output
-
-  GPIOC->CR1 = 0xFF;
-
-  GPIOC->CR2 = 0;
-
+  GPIO_DeInit(GPIOC);                             // Reset GPIO config
+  
+  GPIOC->DDR = 0x08;                              // Set PC3 as Output
+  GPIOC->CR1 = 0xFF;                              // All Pull-up
+  GPIOC->CR2 = 0;                                 // Reseting register
 }
+
+
+
+void BlinkLED(){
+    GPIOC->ODR &= ~(0x08);          // Set LED Low
+    Delay_ms(250);                 // Wait for 250ms 
+    GPIOC->ODR |= 0x08;             // Set LED High
+    Delay_ms(250);                 // Wait for 250ms
+    GPIOC->ODR &= ~(0x08);          // Set LED Low Again
+}
+
 
 //------------------------------------------------------------------------------
 // Tempo = 4cy + 2cy + 22*4cy + 5cy = 99cy => 99us
@@ -120,6 +122,7 @@ void Delay_ms(unsigned int VezesT)
 		Delay_100us();
 	}
 }
+
 
 #ifdef USE_FULL_ASSERT
 
