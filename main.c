@@ -39,14 +39,12 @@ void BlinkLED(void);
 void main(void)
 {
 
-  MCUinit();
+  MCUinit();                  // Initializing configurations
+
   /* Infinite loop */
   while (1)
   {
-
     BlinkLED();
-    
-
   }
   
 }
