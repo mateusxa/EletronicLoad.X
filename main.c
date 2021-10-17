@@ -29,17 +29,34 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm8s.h"
 
+
+/* Defines -------------------------------------------------------------------*/
+#define LED_PORT              GPIOC
+#define LED_PIN               GPIO_PIN_3
+
+#define SCL_PORT              GPIOB
+#define SCL_PIN               GPIO_PIN_4
+
+#define SDA_PORT              GPIOB
+#define SDA_PIN               GPIO_PIN_5
+
+
 #define MCP4725_ADDRESS       0xC2
+
+/* Macros -------------------------------------------------------------------*/
+#define LED_ON                GPIO_WriteHigh(LED_PORT, LED_PIN)
+#define LED_OFF               GPIO_WriteLow(LED_PORT, LED_PIN)
+
 
 /* Functions -----------------------------------------------------------------*/
 void MCUinit(void);
 void CLKinit(void);
 void GPIOinit(void);
 void I2Cinit(void);
-// -------------------------------------------------------------------------- //
+/* ---------------------------------------------------------------------------*/
 void MCP4725_write(uint16_t data);
 void BlinkLED(void);
-
+/* ---------------------------------------------------------------------------*/
 void Delay_100us(void);
 void Delay_ms(unsigned int VezesT);
 
@@ -52,7 +69,8 @@ void main(void)
   /* Infinite loop */
   while (1)
   {
-    MCP4725_write(2045);
+    MCP4725_write(1000);
+    BlinkLED();
     Delay_ms(500);
 
   }
@@ -90,12 +108,13 @@ void CLKinit(void){
 
 /* GPIO function -------------------------------------------------------------*/
 void GPIOinit(void){
-  GPIO_DeInit(GPIOC);                             // Reset GPIO config
-  GPIO_Init(GPIOC, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST);
-  
-  GPIO_DeInit(GPIOB);                             // Reset GPIO config
-  GPIO_Init(GPIOB, GPIO_PIN_4, GPIO_MODE_IN_PU_NO_IT);
-  GPIO_Init(GPIOB, GPIO_PIN_5, GPIO_MODE_IN_PU_NO_IT);
+  GPIO_DeInit(GPIOC);
+  GPIO_DeInit(GPIOB);
+
+  GPIO_Init(LED_PORT, LED_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
+
+  GPIO_Init(SCL_PORT, SCL_PIN, GPIO_MODE_IN_PU_NO_IT);
+  GPIO_Init(SDA_PORT, SDA_PIN, GPIO_MODE_IN_PU_NO_IT);
 }
 
 /* I2C function -------------------------------------------------------------*/
@@ -113,6 +132,7 @@ void I2Cinit(void){
 
 }
 
+/* MCP4725_write function -------------------------------------------------------------*/
 void MCP4725_write(uint16_t data){
 
     uint8_t FIRST_NIMBLE = (data >> 8);
@@ -140,9 +160,9 @@ void MCP4725_write(uint16_t data){
 
 /* BlinkLED function -------------------------------------------------------------*/
 void BlinkLED(){
-    GPIO_WriteHigh(GPIOC, GPIO_PIN_3);
+    LED_ON;
     Delay_ms(250);                 // Wait for 250ms 
-    GPIO_WriteLow(GPIOC, GPIO_PIN_3);
+    LED_OFF;
     Delay_ms(250);                 // Wait for 250ms
 }
 
