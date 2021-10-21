@@ -28,10 +28,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm8s.h"
-
+#include "stm8s_it.h"
 
 /* Defines -------------------------------------------------------------------*/
-#define LED_PORT              GPIOC
+#define LED_PORT              GPIOA
 #define LED_PIN               GPIO_PIN_3
 
 #define SCL_PORT              GPIOB
@@ -40,7 +40,13 @@
 #define SDA_PORT              GPIOB
 #define SDA_PIN               GPIO_PIN_5
 
+#define RE_DT_PORT            GPIOC
+#define RE_DT_PIN             GPIO_PIN_4
 
+#define RE_CLK_PORT           GPIOC
+#define RE_CLK_PIN            GPIO_PIN_3
+
+/* ---------------------------------------------------------------------------*/
 #define MCP4725_ADDRESS       0xC2
 
 /* Macros -------------------------------------------------------------------*/
@@ -69,12 +75,25 @@ void main(void)
   /* Infinite loop */
   while (1)
   {
-    MCP4725_write(1000);
-    BlinkLED();
+    //MCP4725_write(1000);
+    //BlinkLED();
     Delay_ms(500);
 
   }
 }
+
+/* INTERRUPTS -------------------------------------------------------------*/
+
+/* External Interrupt function PORTC --------------------------------------*/
+INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
+{
+  /* In order to detect unexpected events during development,
+     it is recommended to set a breakpoint on the following instruction.
+  */
+ BlinkLED();
+}
+
+
 
 /* MCU function -------------------------------------------------------------*/
 void MCUinit(void){
@@ -82,6 +101,8 @@ void MCUinit(void){
   GPIOinit();                                     // Initializing GPIO configuration
   Delay_ms(500);                                  // Wait for registers to stable
   I2Cinit();                                      // Initializing I2C configuration
+
+  enableInterrupts();
 }
 
 /* CLK function -------------------------------------------------------------*/
@@ -108,13 +129,26 @@ void CLKinit(void){
 
 /* GPIO function -------------------------------------------------------------*/
 void GPIOinit(void){
+
   GPIO_DeInit(GPIOC);
   GPIO_DeInit(GPIOB);
 
   GPIO_Init(LED_PORT, LED_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
+  
+  GPIO_Init(RE_DT_PORT, RE_DT_PIN, GPIO_MODE_IN_PU_NO_IT);
+  GPIO_Init(RE_CLK_PORT, RE_CLK_PIN, GPIO_MODE_IN_PU_IT);
 
   GPIO_Init(SCL_PORT, SCL_PIN, GPIO_MODE_IN_PU_NO_IT);
   GPIO_Init(SDA_PORT, SDA_PIN, GPIO_MODE_IN_PU_NO_IT);
+
+}
+
+/* INT function -------------------------------------------------------------*/
+void INTinit(void){
+  
+  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_LOW);
+  //ITC_SetSoftwarePriority(ITC_IRQ_PORTC, ITC_PRIORITYLEVEL_1);
+
 }
 
 /* I2C function -------------------------------------------------------------*/
