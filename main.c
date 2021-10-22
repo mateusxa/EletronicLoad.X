@@ -53,6 +53,11 @@
 #define LED_ON                GPIO_WriteHigh(LED_PORT, LED_PIN)
 #define LED_OFF               GPIO_WriteLow(LED_PORT, LED_PIN)
 
+/* Variaveis -------------------------------------------------------------------*/
+//uint8_t currentStateCLK;
+//uint8_t lastStateCLK;
+
+volatile bool fired = FALSE;
 
 /* Functions -----------------------------------------------------------------*/
 void MCUinit(void);
@@ -70,6 +75,10 @@ void Delay_ms(unsigned int VezesT);
 /* Main function -------------------------------------------------------------*/
 void main(void)
 {
+  // Read the initial state of CLK
+	//lastStateCLK = GPIO_ReadInputPin(RE_CLK_PORT, RE_CLK_PIN);
+
+
   MCUinit();                  // Initializing configurations
 
   /* Infinite loop */
@@ -79,7 +88,7 @@ void main(void)
     //BlinkLED();
     Delay_ms(500);
 
-  }
+  } 
 }
 
 /* INTERRUPTS -------------------------------------------------------------*/
@@ -90,7 +99,153 @@ INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
   /* In order to detect unexpected events during development,
      it is recommended to set a breakpoint on the following instruction.
   */
- BlinkLED();
+	
+
+  /*
+	// Read the current state of CLK
+	currentStateCLK = GPIO_ReadInputPin(RE_CLK_PORT, RE_CLK_PIN);
+
+	// If last and current state of CLK are different, then pulse occurred
+	// React to only 1 state change to avoid double count
+	if (currentStateCLK != lastStateCLK ){
+
+		// If the DT state is different than the CLK state then
+		// the encoder is rotating CCW so decrement
+		if (GPIO_ReadInputPin(RE_DT_PORT, RE_DT_PIN) != currentStateCLK) {
+			
+      BlinkLED();
+
+		} else {
+			// Encoder is rotating CW so increment
+			
+      
+
+		}
+	}
+
+	// Remember last CLK state
+	lastStateCLK = currentStateCLK;
+
+
+-----------------------------------------------------------------------------------------------------------------
+volatile boolean fired = false;
+
+
+ // handle pin change interrupt for D8 to D13 here
+ISR (PCINT0_vect)
+{
+static byte pinA, pinB;  
+static boolean ready;
+static unsigned long lastFiredTime;
+
+
+  byte newPinA = digitalRead (Encoder_A_Pin);
+  byte newPinB = digitalRead (Encoder_B_Pin);
+  
+  if (pinA == newPinA && 
+      pinB == newPinB)
+      return;    // spurious interrupt
+
+
+  // so we only record a turn on both the same (HH or LL)
+  
+  // Forward is: LH/HH or HL/LL
+  // Reverse is: HL/HH or LH/LL
+
+
+  if (newPinA == newPinB)
+    {
+    if (ready)
+      {
+        
+      if (millis () - lastFiredTime >= ROTARY_DEBOUNCE_TIME)
+        {
+        if (newPinA == HIGH)  // must be HH now
+          {
+          if (pinA == LOW)
+            fileNumber ++;
+          else
+            fileNumber --;
+          }
+        else
+          {                  // must be LL now
+          if (pinA == LOW)  
+            fileNumber --;
+          else
+            fileNumber ++;        
+          }
+        if (fileNumber > MAX_FILE_NUMBER)
+          fileNumber = 0;
+        else if (fileNumber < 0)
+          fileNumber = MAX_FILE_NUMBER;
+        lastFiredTime = millis ();
+        fired = true;
+        }
+        
+      ready = false;
+      }  // end of being ready
+    }  // end of completed click
+  else
+    ready = true;
+    
+  pinA = newPinA;
+  pinB = newPinB;
+    
+ }  // end of PCINT2_vect
+
+
+https://forum.arduino.cc/t/rotary-encoder-not-woeking-no-matter-what/562513
+
+  */
+
+
+static uint8_t pinA, pinB;  
+static bool ready;
+static unsigned long lastFiredTime;
+
+  uint8_t newPinA = GPIO_ReadInputPin (RE_CLK_PORT, RE_CLK_PIN);
+  uint8_t newPinB = GPIO_ReadInputPin (RE_DT_PORT, RE_DT_PIN);
+  
+  if (pinA == newPinA && 
+      pinB == newPinB)
+      return;    // spurious interrupt
+
+
+  // so we only record a turn on both the same (HH or LL)
+  
+  // Forward is: LH/HH or HL/LL
+  // Reverse is: HL/HH or LH/LL
+
+
+  if (newPinA == newPinB)
+    {
+    if (ready)
+      {
+        if (newPinA == 1)  // must be HH now
+          {
+          if (pinA == 0)
+            BlinkLED();
+          else;
+            //fileNumber --;
+          }
+        else
+          {                  // must be LL now
+          if (pinA == 0);  
+            //fileNumber --;
+          else
+            BlinkLED();      
+          }
+
+      ready = FALSE;
+      }  // end of being ready
+    }  // end of completed click
+  else
+    ready = TRUE;
+    
+  pinA = newPinA;
+  pinB = newPinB;
+    
+ 
 }
 
 
