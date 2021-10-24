@@ -31,8 +31,11 @@
 #include "stm8s_it.h"
 
 /* Defines -------------------------------------------------------------------*/
-#define LED_PORT              GPIOA
-#define LED_PIN               GPIO_PIN_3
+#define LED_A_PORT            GPIOA
+#define LED_A_PIN             GPIO_PIN_3
+
+#define LED_B_PORT            GPIOA
+#define LED_B_PIN             GPIO_PIN_2
 
 #define SCL_PORT              GPIOB
 #define SCL_PIN               GPIO_PIN_4
@@ -46,18 +49,26 @@
 #define RE_CLK_PORT           GPIOC
 #define RE_CLK_PIN            GPIO_PIN_3
 
+#define MAX_MCP4725_VALUE     4095
+
 /* ---------------------------------------------------------------------------*/
 #define MCP4725_ADDRESS       0xC2
 
 /* Macros -------------------------------------------------------------------*/
-#define LED_ON                GPIO_WriteHigh(LED_PORT, LED_PIN)
-#define LED_OFF               GPIO_WriteLow(LED_PORT, LED_PIN)
+#define READ_RE_CLK           GPIO_ReadInputPin(RE_CLK_PORT, RE_CLK_PIN)
+#define READ_RE_DT            GPIO_ReadInputPin(RE_DT_PORT, RE_DT_PIN)
+
+#define LED_A_ON              GPIO_WriteHigh(LED_A_PORT, LED_A_PIN)
+#define LED_A_OFF             GPIO_WriteLow(LED_A_PORT, LED_A_PIN)
+
+#define LED_B_ON              GPIO_WriteHigh(LED_B_PORT, LED_B_PIN)
+#define LED_B_OFF             GPIO_WriteLow(LED_B_PORT, LED_B_PIN)
 
 /* Variaveis -------------------------------------------------------------------*/
 //uint8_t currentStateCLK;
 //uint8_t lastStateCLK;
-
-volatile bool fired = FALSE;
+//volatile bool fired = FALSE;
+uint16_t MCP4725_value = 0;
 
 /* Functions -----------------------------------------------------------------*/
 void MCUinit(void);
@@ -66,67 +77,23 @@ void GPIOinit(void);
 void I2Cinit(void);
 /* ---------------------------------------------------------------------------*/
 void MCP4725_write(uint16_t data);
-void BlinkLED(void);
+void MCP4725_increment(void);
+void MCP4725_decrement(void);
+/* ---------------------------------------------------------------------------*/
+void BlinkLED_B(void);
+void BlinkLED_A(void);
+/* ---------------------------------------------------------------------------*/
+void RotaryEncoderHandler(void);
 /* ---------------------------------------------------------------------------*/
 void Delay_100us(void);
 void Delay_ms(unsigned int VezesT);
-
-
-/* Main function -------------------------------------------------------------*/
-void main(void)
-{
-  // Read the initial state of CLK
-	//lastStateCLK = GPIO_ReadInputPin(RE_CLK_PORT, RE_CLK_PIN);
-
-
-  MCUinit();                  // Initializing configurations
-
-  /* Infinite loop */
-  while (1)
-  {
-    //MCP4725_write(1000);
-    //BlinkLED();
-    Delay_ms(500);
-
-  } 
-}
 
 /* INTERRUPTS -------------------------------------------------------------*/
 
 /* External Interrupt function PORTC --------------------------------------*/
 INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
 {
-  /* In order to detect unexpected events during development,
-     it is recommended to set a breakpoint on the following instruction.
-  */
-	
-
-  /*
-	// Read the current state of CLK
-	currentStateCLK = GPIO_ReadInputPin(RE_CLK_PORT, RE_CLK_PIN);
-
-	// If last and current state of CLK are different, then pulse occurred
-	// React to only 1 state change to avoid double count
-	if (currentStateCLK != lastStateCLK ){
-
-		// If the DT state is different than the CLK state then
-		// the encoder is rotating CCW so decrement
-		if (GPIO_ReadInputPin(RE_DT_PORT, RE_DT_PIN) != currentStateCLK) {
-			
-      BlinkLED();
-
-		} else {
-			// Encoder is rotating CW so increment
-			
-      
-
-		}
-	}
-
-	// Remember last CLK state
-	lastStateCLK = currentStateCLK;
-
-
+/*
 -----------------------------------------------------------------------------------------------------------------
 volatile boolean fired = false;
 
@@ -196,12 +163,12 @@ static unsigned long lastFiredTime;
 
 https://forum.arduino.cc/t/rotary-encoder-not-woeking-no-matter-what/562513
 
-  */
+  
 
 
 static uint8_t pinA, pinB;  
 static bool ready;
-static unsigned long lastFiredTime;
+//static unsigned long lastFiredTime;
 
   uint8_t newPinA = GPIO_ReadInputPin (RE_CLK_PORT, RE_CLK_PIN);
   uint8_t newPinB = GPIO_ReadInputPin (RE_DT_PORT, RE_DT_PIN);
@@ -224,18 +191,18 @@ static unsigned long lastFiredTime;
         if (newPinA == 1)  // must be HH now
           {
           if (pinA == 0)
-            BlinkLED();
-          else;
-            //fileNumber --;
+            MCP4725_increment();
+          else
+            MCP4725_decrement();
           }
         else
           {                  // must be LL now
-          if (pinA == 0);  
-            //fileNumber --;
+          if (pinA == 0)  
+            MCP4725_decrement();
           else
-            BlinkLED();      
+            MCP4725_increment();      
           }
-
+          fired = TRUE;
       ready = FALSE;
       }  // end of being ready
     }  // end of completed click
@@ -244,10 +211,35 @@ static unsigned long lastFiredTime;
     
   pinA = newPinA;
   pinB = newPinB;
-    
- 
+  //MCP4725_write(MCP4725_value);
+ */
+
+RotaryEncoderHandler();
+
 }
 
+
+/* Main function -------------------------------------------------------------*/
+void main(void)
+{
+  // Read the initial state of CLK
+	//lastStateCLK = GPIO_ReadInputPin(RE_CLK_PORT, RE_CLK_PIN);
+
+
+  MCUinit();                  // Initializing configurations
+
+  /* Infinite loop */
+  while (1)
+  {
+    /*
+    //MCP4725_write(1000);
+    BlinkLED_A();
+    Delay_ms(500);
+    BlinkLED_B();
+    Delay_ms(500);
+    */
+  } 
+}
 
 
 /* MCU function -------------------------------------------------------------*/
@@ -288,7 +280,8 @@ void GPIOinit(void){
   GPIO_DeInit(GPIOC);
   GPIO_DeInit(GPIOB);
 
-  GPIO_Init(LED_PORT, LED_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
+  GPIO_Init(LED_A_PORT, LED_A_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
+  GPIO_Init(LED_B_PORT, LED_B_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
   
   GPIO_Init(RE_DT_PORT, RE_DT_PIN, GPIO_MODE_IN_PU_NO_IT);
   GPIO_Init(RE_CLK_PORT, RE_CLK_PIN, GPIO_MODE_IN_PU_IT);
@@ -301,7 +294,7 @@ void GPIOinit(void){
 /* INT function -------------------------------------------------------------*/
 void INTinit(void){
   
-  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_LOW);
+  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_ONLY);
   //ITC_SetSoftwarePriority(ITC_IRQ_PORTC, ITC_PRIORITYLEVEL_1);
 
 }
@@ -347,14 +340,47 @@ void MCP4725_write(uint16_t data){
     I2C_GenerateSTOP(ENABLE);
 }
 
-/* BlinkLED function -------------------------------------------------------------*/
-void BlinkLED(){
-    LED_ON;
+/* MCP4725_increment function -------------------------------------------------------------*/
+void MCP4725_increment(void){
+    if(MCP4725_value == MAX_MCP4725_VALUE) MCP4725_value = 0;
+    else MCP4725_value++;
+
+    MCP4725_write(MCP4725_value);
+}
+
+/* MCP4725_decrement function -------------------------------------------------------------*/
+void MCP4725_decrement(void){
+    if(MCP4725_value == 0) MCP4725_value = 4095;
+    else MCP4725_value--;
+
+    MCP4725_write(MCP4725_value);
+}
+
+/* RotaryEncoderHandler function -------------------------------------------------------------*/
+void RotaryEncoderHandler(void)
+{
+    if(!READ_RE_CLK) {
+	   if((!READ_RE_DT)) BlinkLED_A();
+		else BlinkLED_B();
+	  }
+
+}
+
+/* BlinkLED_A function -------------------------------------------------------------*/
+void BlinkLED_A(){
+    LED_A_ON;
     Delay_ms(250);                 // Wait for 250ms 
-    LED_OFF;
+    LED_A_OFF;
     Delay_ms(250);                 // Wait for 250ms
 }
 
+/* BlinkLED_B function -------------------------------------------------------------*/
+void BlinkLED_B(){
+    LED_B_ON;
+    Delay_ms(250);                 // Wait for 250ms 
+    LED_B_OFF;
+    Delay_ms(250);                 // Wait for 250ms
+}
 
 /* Delay 100us function -------------------------------------------------------------*/
 // Tempo = 4cy + 2cy + 22*4cy + 5cy = 99cy => 99us
