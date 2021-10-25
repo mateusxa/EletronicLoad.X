@@ -51,6 +51,7 @@
 
 #define MAX_MCP4725_VALUE     4095
 
+#define TIM4_PERIOD           20
 /* ---------------------------------------------------------------------------*/
 #define MCP4725_ADDRESS       0xC2
 
@@ -60,14 +61,13 @@
 
 #define LED_A_ON              GPIO_WriteHigh(LED_A_PORT, LED_A_PIN)
 #define LED_A_OFF             GPIO_WriteLow(LED_A_PORT, LED_A_PIN)
+#define LED_A_TOGGLE          GPIO_WriteReverse(LED_A_PORT, LED_A_PIN)
 
 #define LED_B_ON              GPIO_WriteHigh(LED_B_PORT, LED_B_PIN)
 #define LED_B_OFF             GPIO_WriteLow(LED_B_PORT, LED_B_PIN)
+#define LED_B_TOGGLE          GPIO_WriteReverse(LED_B_PORT, LED_B_PIN)
 
-/* Variaveis -------------------------------------------------------------------*/
-//uint8_t currentStateCLK;
-//uint8_t lastStateCLK;
-//volatile bool fired = FALSE;
+/* Variables -------------------------------------------------------------------*/
 uint16_t MCP4725_value = 0;
 
 /* Functions -----------------------------------------------------------------*/
@@ -75,8 +75,10 @@ void MCUinit(void);
 void CLKinit(void);
 void GPIOinit(void);
 void I2Cinit(void);
+void TMR4init(void);
 /* ---------------------------------------------------------------------------*/
 void MCP4725_write(uint16_t data);
+void MCP4725_valueUpdate(void);
 void MCP4725_increment(void);
 void MCP4725_decrement(void);
 /* ---------------------------------------------------------------------------*/
@@ -93,146 +95,28 @@ void Delay_ms(unsigned int VezesT);
 /* External Interrupt function PORTC --------------------------------------*/
 INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
 {
-/*
------------------------------------------------------------------------------------------------------------------
-volatile boolean fired = false;
-
-
- // handle pin change interrupt for D8 to D13 here
-ISR (PCINT0_vect)
-{
-static byte pinA, pinB;  
-static boolean ready;
-static unsigned long lastFiredTime;
-
-
-  byte newPinA = digitalRead (Encoder_A_Pin);
-  byte newPinB = digitalRead (Encoder_B_Pin);
-  
-  if (pinA == newPinA && 
-      pinB == newPinB)
-      return;    // spurious interrupt
-
-
-  // so we only record a turn on both the same (HH or LL)
-  
-  // Forward is: LH/HH or HL/LL
-  // Reverse is: HL/HH or LH/LL
-
-
-  if (newPinA == newPinB)
-    {
-    if (ready)
-      {
-        
-      if (millis () - lastFiredTime >= ROTARY_DEBOUNCE_TIME)
-        {
-        if (newPinA == HIGH)  // must be HH now
-          {
-          if (pinA == LOW)
-            fileNumber ++;
-          else
-            fileNumber --;
-          }
-        else
-          {                  // must be LL now
-          if (pinA == LOW)  
-            fileNumber --;
-          else
-            fileNumber ++;        
-          }
-        if (fileNumber > MAX_FILE_NUMBER)
-          fileNumber = 0;
-        else if (fileNumber < 0)
-          fileNumber = MAX_FILE_NUMBER;
-        lastFiredTime = millis ();
-        fired = true;
-        }
-        
-      ready = false;
-      }  // end of being ready
-    }  // end of completed click
-  else
-    ready = true;
-    
-  pinA = newPinA;
-  pinB = newPinB;
-    
- }  // end of PCINT2_vect
-
-
-https://forum.arduino.cc/t/rotary-encoder-not-woeking-no-matter-what/562513
-
-  
-
-
-static uint8_t pinA, pinB;  
-static bool ready;
-//static unsigned long lastFiredTime;
-
-  uint8_t newPinA = GPIO_ReadInputPin (RE_CLK_PORT, RE_CLK_PIN);
-  uint8_t newPinB = GPIO_ReadInputPin (RE_DT_PORT, RE_DT_PIN);
-  
-  if (pinA == newPinA && 
-      pinB == newPinB)
-      return;    // spurious interrupt
-
-
-  // so we only record a turn on both the same (HH or LL)
-  
-  // Forward is: LH/HH or HL/LL
-  // Reverse is: HL/HH or LH/LL
-
-
-  if (newPinA == newPinB)
-    {
-    if (ready)
-      {
-        if (newPinA == 1)  // must be HH now
-          {
-          if (pinA == 0)
-            MCP4725_increment();
-          else
-            MCP4725_decrement();
-          }
-        else
-          {                  // must be LL now
-          if (pinA == 0)  
-            MCP4725_decrement();
-          else
-            MCP4725_increment();      
-          }
-          fired = TRUE;
-      ready = FALSE;
-      }  // end of being ready
-    }  // end of completed click
-  else
-    ready = TRUE;
-    
-  pinA = newPinA;
-  pinB = newPinB;
-  //MCP4725_write(MCP4725_value);
- */
-
 RotaryEncoderHandler();
-
 }
 
+/* Interrupt function TIMER 4 --------------------------------------*/
+INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
+ {
+    MCP4725_valueUpdate();
+    TIM4_ClearFlag(TIM4_FLAG_UPDATE);                               // Limpa o flag do timer4
+ }
 
 /* Main function -------------------------------------------------------------*/
 void main(void)
 {
-  // Read the initial state of CLK
-	//lastStateCLK = GPIO_ReadInputPin(RE_CLK_PORT, RE_CLK_PIN);
-
 
   MCUinit();                  // Initializing configurations
-
   /* Infinite loop */
   while (1)
   {
     /*
-    //MCP4725_write(1000);
+    MCP4725_write(1000);
+    
+    
     BlinkLED_A();
     Delay_ms(500);
     BlinkLED_B();
@@ -246,9 +130,10 @@ void main(void)
 void MCUinit(void){
   CLKinit();                                      // Initializing clock configutation
   GPIOinit();                                     // Initializing GPIO configuration
-  Delay_ms(500);                                  // Wait for registers to stable
   I2Cinit();                                      // Initializing I2C configuration
+  TMR4init();                                     // Initializing TMR5 configuration
 
+  Delay_ms(500);                                  // Wait for registers to stable
   enableInterrupts();
 }
 
@@ -256,21 +141,21 @@ void MCUinit(void){
 void CLKinit(void){
 	CLK_DeInit();								                    // Reseta as config. de clock
 	CLK_HSECmd(DISABLE);						                    // Desabilita HSE
-        CLK_HSICmd(ENABLE);							                    // Habilita HSI - 16Mhz
+  CLK_HSICmd(ENABLE);							                    // Habilita HSI - 16Mhz
 	while(CLK_GetFlagStatus(CLK_FLAG_HSIRDY) == 0);
 	CLK_ClockSwitchCmd(ENABLE);
 	CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV4);      // 16Mhz / 4 -> Fmaster = 4MHz
 	CLK_SYSCLKConfig(CLK_PRESCALER_CPUDIV1);            // 4MHz / 4 -> Fcup = 1MHz
 	CLK_ClockSwitchConfig(CLK_SWITCHMODE_AUTO, CLK_SOURCE_HSI, DISABLE,CLK_CURRENTCLOCKSTATE_ENABLE);
 	
-        CLK_PeripheralClockConfig(CLK_PERIPHERAL_I2C, ENABLE);
+  
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_SPI, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_UART1, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_AWU, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_ADC, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER1, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER2, DISABLE);   
-	CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, DISABLE);
+	
 
 }
 
@@ -299,15 +184,37 @@ void INTinit(void){
 
 }
 
+/* TMR4init function -------------------------------------------------------------*/
+void TMR4init(void){
+
+    TIM4_DeInit();
+
+    CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, ENABLE);
+
+    /* Time base configuration */
+    TIM4_TimeBaseInit(TIM4_PRESCALER_1, TIM4_PERIOD);
+    /* Clear TIM4 update flag */
+    TIM4_ClearFlag(TIM4_FLAG_UPDATE);
+    /* Enable update interrupt */
+    TIM4_ITConfig(TIM4_IT_UPDATE, ENABLE);
+
+    /* Enable TIM4 */
+    TIM4_Cmd(ENABLE);
+
+    
+}
+
 /* I2C function -------------------------------------------------------------*/
 void I2Cinit(void){
 
   I2C_DeInit();
 
+  CLK_PeripheralClockConfig(CLK_PERIPHERAL_I2C, ENABLE);
+
   uint8_t Input_Clock = 0;
   Input_Clock = CLK_GetClockFreq() / 1000000;
 
-  I2C_Init(100000, 0xA0, I2C_DUTYCYCLE_2, I2C_ACK_CURR, I2C_ADDMODE_7BIT, Input_Clock);
+  I2C_Init(400000, 0xA0, I2C_DUTYCYCLE_2, I2C_ACK_CURR, I2C_ADDMODE_7BIT, Input_Clock);
 
   I2C_Cmd(ENABLE);
   
@@ -344,24 +251,25 @@ void MCP4725_write(uint16_t data){
 void MCP4725_increment(void){
     if(MCP4725_value == MAX_MCP4725_VALUE) MCP4725_value = 0;
     else MCP4725_value++;
-
-    MCP4725_write(MCP4725_value);
 }
 
 /* MCP4725_decrement function -------------------------------------------------------------*/
 void MCP4725_decrement(void){
     if(MCP4725_value == 0) MCP4725_value = 4095;
     else MCP4725_value--;
+}
 
-    MCP4725_write(MCP4725_value);
+/* MCP4725_valueUpdate function -------------------------------------------------------------*/
+void MCP4725_valueUpdate(void){
+  MCP4725_write(MCP4725_value);
 }
 
 /* RotaryEncoderHandler function -------------------------------------------------------------*/
 void RotaryEncoderHandler(void)
 {
     if(!READ_RE_CLK) {
-	   if((!READ_RE_DT)) BlinkLED_A();
-		else BlinkLED_B();
+	   if((!READ_RE_DT)) MCP4725_increment();
+		else MCP4725_decrement();
 	  }
 
 }
