@@ -51,7 +51,7 @@
 
 #define MAX_MCP4725_VALUE     4095
 
-#define TIM4_PERIOD           20
+#define TIM4_PERIOD           255
 /* ---------------------------------------------------------------------------*/
 #define MCP4725_ADDRESS       0xC2
 
@@ -69,6 +69,10 @@
 
 /* Variables -------------------------------------------------------------------*/
 uint16_t MCP4725_value = 0;
+uint8_t MCP4725_UpdateFlag = 0;
+/* ---------------------------------------------------------------------------*/
+
+
 
 /* Functions -----------------------------------------------------------------*/
 void MCUinit(void);
@@ -79,8 +83,6 @@ void TMR4init(void);
 /* ---------------------------------------------------------------------------*/
 void MCP4725_write(uint16_t data);
 void MCP4725_valueUpdate(void);
-void MCP4725_increment(void);
-void MCP4725_decrement(void);
 /* ---------------------------------------------------------------------------*/
 void BlinkLED_B(void);
 void BlinkLED_A(void);
@@ -100,8 +102,9 @@ RotaryEncoderHandler();
 
 /* Interrupt function TIMER 4 --------------------------------------*/
 INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
- {
-    MCP4725_valueUpdate();
+ {  
+    //if(!MCP4725_UpdateFlag) MCP4725_UpdateFlag = 1;
+
     TIM4_ClearFlag(TIM4_FLAG_UPDATE);                               // Limpa o flag do timer4
  }
 
@@ -113,6 +116,8 @@ void main(void)
   /* Infinite loop */
   while (1)
   {
+    
+    
     /*
     MCP4725_write(1000);
     
@@ -180,7 +185,7 @@ void GPIOinit(void){
 void INTinit(void){
   
   EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_ONLY);
-  //ITC_SetSoftwarePriority(ITC_IRQ_PORTC, ITC_PRIORITYLEVEL_1);
+  ITC_SetSoftwarePriority(ITC_IRQ_PORTC, ITC_PRIORITYLEVEL_1);
 
 }
 
@@ -190,7 +195,6 @@ void TMR4init(void){
     TIM4_DeInit();
 
     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, ENABLE);
-
     /* Time base configuration */
     TIM4_TimeBaseInit(TIM4_PRESCALER_1, TIM4_PERIOD);
     /* Clear TIM4 update flag */
@@ -247,18 +251,6 @@ void MCP4725_write(uint16_t data){
     I2C_GenerateSTOP(ENABLE);
 }
 
-/* MCP4725_increment function -------------------------------------------------------------*/
-void MCP4725_increment(void){
-    if(MCP4725_value == MAX_MCP4725_VALUE) MCP4725_value = 0;
-    else MCP4725_value++;
-}
-
-/* MCP4725_decrement function -------------------------------------------------------------*/
-void MCP4725_decrement(void){
-    if(MCP4725_value == 0) MCP4725_value = 4095;
-    else MCP4725_value--;
-}
-
 /* MCP4725_valueUpdate function -------------------------------------------------------------*/
 void MCP4725_valueUpdate(void){
   MCP4725_write(MCP4725_value);
@@ -267,11 +259,20 @@ void MCP4725_valueUpdate(void){
 /* RotaryEncoderHandler function -------------------------------------------------------------*/
 void RotaryEncoderHandler(void)
 {
+    Delay_ms(1);
     if(!READ_RE_CLK) {
-	   if((!READ_RE_DT)) MCP4725_increment();
-		else MCP4725_decrement();
+	   if((!READ_RE_DT)){
+        BlinkLED_A();
+        if(MCP4725_value - 50 >= MAX_MCP4725_VALUE) MCP4725_value = 4095;
+        else MCP4725_value = MCP4725_value - 50;
+     } 
+		else{
+      BlinkLED_B();
+      if(MCP4725_value + 50 >= MAX_MCP4725_VALUE) MCP4725_value = 0;
+      else MCP4725_value = MCP4725_value + 50;
+    } 
 	  }
-
+    MCP4725_valueUpdate();
 }
 
 /* BlinkLED_A function -------------------------------------------------------------*/
