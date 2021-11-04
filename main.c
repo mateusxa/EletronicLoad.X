@@ -30,7 +30,7 @@
 #include "stm8s.h"
 #include "stm8s_it.h"
 #include "stm8s_delay.h"
-
+#include <string.h>
 
 
 /* Defines -------------------------------------------------------------------*/
@@ -85,6 +85,7 @@
 /* Variables -------------------------------------------------------------------*/
 uint16_t MCP4725_value = 0;
 uint8_t MCP4725_UpdateFlag = 10;
+char buffer[20];
 /* ---------------------------------------------------------------------------*/
 
 
@@ -107,6 +108,7 @@ void RotaryEncoderHandler(void);
 void Delay_100us(void);
 void Delay_ms(unsigned int VezesT);
 
+char* itoa(int value, char* result, int base);
 
 
 /* INTERRUPTS -------------------------------------------------------------*/
@@ -132,14 +134,22 @@ void main(void)
   MCUinit();                  // Initializing configurations
   MCP4725_valueUpdate();
 
-  Lcd_Begin();
+  Lcd_Clear();
+  Lcd_Set_Cursor(1,1);
+  Lcd_Print_String("Tensao: ");
+  Lcd_Set_Cursor(2,1);
+  Lcd_Print_String("Corrente: ");
+  
+  itoa(MCP4725_value, buffer, 10);
+  Lcd_Set_Cursor(2,11);
+  Lcd_Print_String(buffer);
 
   /* Infinite loop */
   while (1)
   {
-    Lcd_Clear();
-    Lcd_Set_Cursor(1,1);
-    Lcd_Print_String("LCD TEST");
+    itoa(MCP4725_value, buffer, 10);
+  Lcd_Set_Cursor(2,11);
+  Lcd_Print_String(buffer);
     Delay_ms(500);
 
     /*
@@ -161,6 +171,7 @@ void MCUinit(void){
   GPIOinit();                                     // Initializing GPIO configuration
   I2Cinit();                                      // Initializing I2C configuration
   TMR4init();                                     // Initializing TMR4 configuration
+  Lcd_Begin();
 
   Delay_ms(500);                                  // Wait for registers to stable
   enableInterrupts();
@@ -174,7 +185,7 @@ void CLKinit(void){
 	while(CLK_GetFlagStatus(CLK_FLAG_HSIRDY) == 0);
 	CLK_ClockSwitchCmd(ENABLE);
 	CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV4);      // 16Mhz / 4 -> Fmaster = 4MHz
-	CLK_SYSCLKConfig(CLK_PRESCALER_CPUDIV1);            // 4MHz / 4 -> Fcup = 1MHz
+	CLK_SYSCLKConfig(CLK_PRESCALER_CPUDIV1);            // 4MHz  -> Fcup = 4MHz
 	CLK_ClockSwitchConfig(CLK_SWITCHMODE_AUTO, CLK_SOURCE_HSI, DISABLE,CLK_CURRENTCLOCKSTATE_ENABLE);
 	
   
@@ -321,6 +332,36 @@ void BlinkLED_B(){
     Delay_ms(250);                 // Wait for 250ms 
     //LED_B_OFF;
     Delay_ms(250);                 // Wait for 250ms
+}
+
+
+/**
+ * C++ version 0.4 char* style "itoa":
+ * Written by Lukás Chmela
+ * Released under GPLv3.
+ */
+char* itoa(int value, char* result, int base) {
+    // check that the base if valid
+    if (base < 2 || base > 36) { *result = '\0'; return result; }
+
+    char* ptr = result, *ptr1 = result, tmp_char;
+    int tmp_value;
+
+    do {
+        tmp_value = value;
+        value /= base;
+        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
+    } while ( value );
+
+    // Apply negative sign
+    if (tmp_value < 0) *ptr++ = '-';
+    *ptr-- = '\0';
+    while(ptr1 < ptr) {
+        tmp_char = *ptr;
+        *ptr--= *ptr1;
+        *ptr1++ = tmp_char;
+    }
+    return result;
 }
 
 #ifdef USE_FULL_ASSERT

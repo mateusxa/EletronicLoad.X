@@ -13,7 +13,6 @@
  #define LCD_DB7    GPIOD, GPIO_PIN_4
  */
 
- void delay_ms(int ms);
  void Lcd_SetBit(char data_bit);
  void Lcd_Cmd(char a);
  void Lcd_Begin(void);
@@ -22,18 +21,6 @@
  void Lcd_Set_Cursor(char a, char b);
  void Lcd_Print_String(char *a);
 
-
- 
-void delay_ms (int ms) //Function Definition 
-{
-int i =0 ;
-int j=0;
-for (i=0; i<=ms; i++)
-{
-for (j=0; j<120; j++) // Nop = Fosc/4
-__asm("nop"); //Perform no operation //assembly code <span style="white-space:pre"> </span>
-}
-}
 
  void Lcd_SetBit(char data_bit) //Based on the Hex value Set the Bits of the Data Lines
 {
@@ -63,7 +50,7 @@ void Lcd_Cmd(char a)
     GPIO_WriteLow(LCD_RS); //RS = 0          
     Lcd_SetBit(a); //Incoming Hex value
     GPIO_WriteHigh(LCD_EN); //EN  = 1         
-		delay_ms(2);
+		Delay_ms(2);
 		GPIO_WriteLow(LCD_EN); //EN  = 0      
 }
 
@@ -78,17 +65,17 @@ void Lcd_Cmd(char a)
 	 GPIO_Init(LCD_DB5, GPIO_MODE_OUT_PP_HIGH_FAST);
 	 GPIO_Init(LCD_DB6, GPIO_MODE_OUT_PP_HIGH_FAST);
 	 GPIO_Init(LCD_DB7, GPIO_MODE_OUT_PP_HIGH_FAST);
-	 delay_ms(10);
+	 Delay_ms(10);
 	 
 	Lcd_SetBit(0x00);
-	delay_ms(1000);  //for(int i=1065244; i<=0; i--)  
+	Delay_ms(1000);  //for(int i=1065244; i<=0; i--)  
 
 	
   Lcd_Cmd(0x03);
-	delay_ms(5);
+	Delay_ms(5);
 	
   Lcd_Cmd(0x03);
-	delay_ms(11);
+	Delay_ms(11);
 	
   Lcd_Cmd(0x03); 
   Lcd_Cmd(0x02); //02H is used for Return home -> Clears the RAM and initializes the LCD
@@ -140,12 +127,12 @@ void Lcd_Set_Cursor(char a, char b)
 	 
    Lcd_SetBit(Upper_Nibble>>4);             //Send upper half by shifting by 4
    GPIO_WriteHigh(LCD_EN); //EN = 1
-   delay_ms(5); //for(int i=2130483; i<=0; i--)  NOP(); 
+   Delay_ms(5); //for(int i=2130483; i<=0; i--)  NOP(); 
    GPIO_WriteLow(LCD_EN); //EN = 0
 	 
    Lcd_SetBit(Lower_Nibble); //Send Lower half
    GPIO_WriteHigh(LCD_EN); //EN = 1
-   delay_ms(5); //for(int i=2130483; i<=0; i--)  NOP();
+   Delay_ms(5); //for(int i=2130483; i<=0; i--)  NOP();
    GPIO_WriteLow(LCD_EN); //EN = 0
 }
 
