@@ -58,7 +58,7 @@
 /* ---------------------------------------------------------------------------*/
 #define MCP4725_ADDRESS       0xC2
 /* ---------------------------------------------------------------------------*/
-#define LCD_RS                GPIOD, GPIO_PIN_3
+#define LCD_RS                GPIOD, GPIO_PIN_1
 #define LCD_EN                GPIOD, GPIO_PIN_2
 #define LCD_DB4               GPIOC, GPIO_PIN_4
 #define LCD_DB5               GPIOC, GPIO_PIN_5
@@ -86,6 +86,8 @@
 uint16_t MCP4725_value = 0;
 uint8_t MCP4725_UpdateFlag = 10;
 char buffer[20];
+uint16_t MCP4725_Voltage_value = 0;
+
 /* ---------------------------------------------------------------------------*/
 
 
@@ -124,6 +126,7 @@ INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
  {  
     //if(!MCP4725_UpdateFlag) MCP4725_UpdateFlag = 1;
 
+
     TIM4_ClearFlag(TIM4_FLAG_UPDATE);                               // Limpa o flag do timer4
  }
 
@@ -140,17 +143,16 @@ void main(void)
   Lcd_Set_Cursor(2,1);
   Lcd_Print_String("Corrente: ");
   
-  itoa(MCP4725_value, buffer, 10);
-  Lcd_Set_Cursor(2,11);
-  Lcd_Print_String(buffer);
 
   /* Infinite loop */
   while (1)
   {
-    itoa(MCP4725_value, buffer, 10);
-  Lcd_Set_Cursor(2,11);
-  Lcd_Print_String(buffer);
-    Delay_ms(500);
+    MCP4725_Voltage_value = ((5*MCP4725_value)/4096)*100;
+    itoa(MCP4725_Voltage_value, buffer, 10);
+    Lcd_Set_Cursor(2,11);
+    Lcd_Print_String(buffer);
+    Delay_ms(10);
+
 
     /*
     MCP4725_write(1000);
