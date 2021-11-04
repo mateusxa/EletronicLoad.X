@@ -29,47 +29,62 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm8s.h"
 #include "stm8s_it.h"
+#include "stm8s_delay.h"
+
+
 
 /* Defines -------------------------------------------------------------------*/
 #define LED_A_PORT            GPIOA
 #define LED_A_PIN             GPIO_PIN_3
 
-#define LED_B_PORT            GPIOA
-#define LED_B_PIN             GPIO_PIN_2
-
+//#define LED_B_PORT            GPIOA
+//#define LED_B_PIN             GPIO_PIN_2
+/* ---------------------------------------------------------------------------*/
 #define SCL_PORT              GPIOB
 #define SCL_PIN               GPIO_PIN_4
 
 #define SDA_PORT              GPIOB
 #define SDA_PIN               GPIO_PIN_5
+/* ---------------------------------------------------------------------------*/
+#define RE_DT_PORT            GPIOA
+#define RE_DT_PIN             GPIO_PIN_1
 
-#define RE_DT_PORT            GPIOC
-#define RE_DT_PIN             GPIO_PIN_4
-
-#define RE_CLK_PORT           GPIOC
-#define RE_CLK_PIN            GPIO_PIN_3
-
-#define MAX_MCP4725_VALUE     4095
-
+#define RE_CLK_PORT           GPIOA
+#define RE_CLK_PIN            GPIO_PIN_2
+/* ---------------------------------------------------------------------------*/
+#define MCP4725_MAX_VALUE     4095
+/* ---------------------------------------------------------------------------*/
 #define TIM4_PERIOD           255
 /* ---------------------------------------------------------------------------*/
 #define MCP4725_ADDRESS       0xC2
+/* ---------------------------------------------------------------------------*/
+#define LCD_RS                GPIOD, GPIO_PIN_3
+#define LCD_EN                GPIOD, GPIO_PIN_2
+#define LCD_DB4               GPIOC, GPIO_PIN_4
+#define LCD_DB5               GPIOC, GPIO_PIN_5
+#define LCD_DB6               GPIOC, GPIO_PIN_6
+#define LCD_DB7               GPIOC, GPIO_PIN_7
+
+#include "stm8s_LCD_16x2.h"
+
+//Variable declarations
+
 
 /* Macros -------------------------------------------------------------------*/
 #define READ_RE_CLK           GPIO_ReadInputPin(RE_CLK_PORT, RE_CLK_PIN)
 #define READ_RE_DT            GPIO_ReadInputPin(RE_DT_PORT, RE_DT_PIN)
-
+/* ---------------------------------------------------------------------------*/
 #define LED_A_ON              GPIO_WriteHigh(LED_A_PORT, LED_A_PIN)
 #define LED_A_OFF             GPIO_WriteLow(LED_A_PORT, LED_A_PIN)
 #define LED_A_TOGGLE          GPIO_WriteReverse(LED_A_PORT, LED_A_PIN)
 
-#define LED_B_ON              GPIO_WriteHigh(LED_B_PORT, LED_B_PIN)
-#define LED_B_OFF             GPIO_WriteLow(LED_B_PORT, LED_B_PIN)
-#define LED_B_TOGGLE          GPIO_WriteReverse(LED_B_PORT, LED_B_PIN)
+//#define LED_B_ON              GPIO_WriteHigh(LED_B_PORT, LED_B_PIN)
+//#define LED_B_OFF             GPIO_WriteLow(LED_B_PORT, LED_B_PIN)
+//#define LED_B_TOGGLE          GPIO_WriteReverse(LED_B_PORT, LED_B_PIN)
 
 /* Variables -------------------------------------------------------------------*/
 uint16_t MCP4725_value = 0;
-uint8_t MCP4725_UpdateFlag = 0;
+uint8_t MCP4725_UpdateFlag = 10;
 /* ---------------------------------------------------------------------------*/
 
 
@@ -92,12 +107,14 @@ void RotaryEncoderHandler(void);
 void Delay_100us(void);
 void Delay_ms(unsigned int VezesT);
 
+
+
 /* INTERRUPTS -------------------------------------------------------------*/
 
 /* External Interrupt function PORTC --------------------------------------*/
-INTERRUPT_HANDLER(EXTI_PORTC_IRQHandler, 5)
+INTERRUPT_HANDLER(EXTI_PORTA_IRQHandler, 3)
 {
-RotaryEncoderHandler();
+  RotaryEncoderHandler();
 }
 
 /* Interrupt function TIMER 4 --------------------------------------*/
@@ -113,11 +130,18 @@ void main(void)
 {
 
   MCUinit();                  // Initializing configurations
+  MCP4725_valueUpdate();
+
+  Lcd_Begin();
+
   /* Infinite loop */
   while (1)
   {
-    
-    
+    Lcd_Clear();
+    Lcd_Set_Cursor(1,1);
+    Lcd_Print_String("LCD TEST");
+    Delay_ms(500);
+
     /*
     MCP4725_write(1000);
     
@@ -136,7 +160,7 @@ void MCUinit(void){
   CLKinit();                                      // Initializing clock configutation
   GPIOinit();                                     // Initializing GPIO configuration
   I2Cinit();                                      // Initializing I2C configuration
-  TMR4init();                                     // Initializing TMR5 configuration
+  TMR4init();                                     // Initializing TMR4 configuration
 
   Delay_ms(500);                                  // Wait for registers to stable
   enableInterrupts();
@@ -171,21 +195,29 @@ void GPIOinit(void){
   GPIO_DeInit(GPIOB);
 
   GPIO_Init(LED_A_PORT, LED_A_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
-  GPIO_Init(LED_B_PORT, LED_B_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
+  //GPIO_Init(LED_B_PORT, LED_B_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
   
   GPIO_Init(RE_DT_PORT, RE_DT_PIN, GPIO_MODE_IN_PU_NO_IT);
   GPIO_Init(RE_CLK_PORT, RE_CLK_PIN, GPIO_MODE_IN_PU_IT);
 
   GPIO_Init(SCL_PORT, SCL_PIN, GPIO_MODE_IN_PU_NO_IT);
   GPIO_Init(SDA_PORT, SDA_PIN, GPIO_MODE_IN_PU_NO_IT);
+/*
+  GPIO_Init(LCD_RS_PORT, LCD_RS_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
+  GPIO_Init(LCD_ENABLE_PORT, LCD_ENABLE_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
+  GPIO_Init(LCD_DATA_PORT, GPIO_PIN_7, GPIO_MODE_OUT_PP_LOW_SLOW);
+  GPIO_Init(LCD_DATA_PORT, GPIO_PIN_6, GPIO_MODE_OUT_PP_LOW_SLOW);
+  GPIO_Init(LCD_DATA_PORT, GPIO_PIN_5, GPIO_MODE_OUT_PP_LOW_SLOW);
+  GPIO_Init(LCD_DATA_PORT, GPIO_PIN_4, GPIO_MODE_OUT_PP_LOW_SLOW);
+*/
 
 }
 
 /* INT function -------------------------------------------------------------*/
 void INTinit(void){
   
-  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOC, EXTI_SENSITIVITY_FALL_ONLY);
-  ITC_SetSoftwarePriority(ITC_IRQ_PORTC, ITC_PRIORITYLEVEL_1);
+  EXTI_SetExtIntSensitivity(EXTI_PORT_GPIOA, EXTI_SENSITIVITY_FALL_ONLY);
+  ITC_SetSoftwarePriority(ITC_IRQ_PORTA, ITC_PRIORITYLEVEL_1);
 
 }
 
@@ -263,13 +295,13 @@ void RotaryEncoderHandler(void)
     if(!READ_RE_CLK) {
 	   if((!READ_RE_DT)){
         BlinkLED_A();
-        if(MCP4725_value - 50 >= MAX_MCP4725_VALUE) MCP4725_value = 4095;
-        else MCP4725_value = MCP4725_value - 50;
+        if(MCP4725_value - 1 >= MCP4725_MAX_VALUE) MCP4725_value = 4095;
+        else MCP4725_value = MCP4725_value - 1;
      } 
 		else{
       BlinkLED_B();
-      if(MCP4725_value + 50 >= MAX_MCP4725_VALUE) MCP4725_value = 0;
-      else MCP4725_value = MCP4725_value + 50;
+      if(MCP4725_value + 1 >= MCP4725_MAX_VALUE) MCP4725_value = 0;
+      else MCP4725_value = MCP4725_value + 1;
     } 
 	  }
     MCP4725_valueUpdate();
@@ -285,46 +317,11 @@ void BlinkLED_A(){
 
 /* BlinkLED_B function -------------------------------------------------------------*/
 void BlinkLED_B(){
-    LED_B_ON;
+    //LED_B_ON;
     Delay_ms(250);                 // Wait for 250ms 
-    LED_B_OFF;
+    //LED_B_OFF;
     Delay_ms(250);                 // Wait for 250ms
 }
-
-/* Delay 100us function -------------------------------------------------------------*/
-// Tempo = 4cy + 2cy + 22*4cy + 5cy = 99cy => 99us
-void Delay_100us(void)
-{
-    __asm(  "push A\n"						
-            "ld A,#22\n"					
-            "start:	nop\n"							
-            "dec A\n"						
-            "jrne start\n"					
-            "pop A\n"						
-            "ret\n"
-         );
-}
-
-/* Delay_ms function -------------------------------------------------------------*/
-void Delay_ms(unsigned int VezesT)
-{
-	unsigned int i;
-	
-	for(i = 0; i < VezesT; i++)
-	{
-		Delay_100us();
-		Delay_100us();
-		Delay_100us();
-		Delay_100us();
-		Delay_100us();
-		Delay_100us();
-		Delay_100us();
-		Delay_100us();
-		Delay_100us();
-		Delay_100us();
-	}
-}
-
 
 #ifdef USE_FULL_ASSERT
 
