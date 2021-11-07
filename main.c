@@ -86,7 +86,8 @@
 uint16_t MCP4725_value = 0;
 uint8_t MCP4725_UpdateFlag = 10;
 char buffer[20];
-uint16_t MCP4725_Voltage_value = 0;
+float MCP4725_Voltage = 0;
+char MCP4725_String_Voltage[5];
 
 /* ---------------------------------------------------------------------------*/
 
@@ -110,7 +111,7 @@ void RotaryEncoderHandler(void);
 void Delay_100us(void);
 void Delay_ms(unsigned int VezesT);
 
-char* itoa(int value, char* result, int base);
+void Float_to_String(float Value, char *Converted_Value);
 
 
 /* INTERRUPTS -------------------------------------------------------------*/
@@ -147,10 +148,13 @@ void main(void)
   /* Infinite loop */
   while (1)
   {
-    MCP4725_Voltage_value = ((5*MCP4725_value)/4096)*100;
-    itoa(MCP4725_Voltage_value, buffer, 10);
+    
+    MCP4725_Voltage = ((490.0/4096.0)*MCP4725_value) + 3;
+    Float_to_String(MCP4725_Voltage, MCP4725_String_Voltage);
+    
+
     Lcd_Set_Cursor(2,11);
-    Lcd_Print_String(buffer);
+    Lcd_Print_String(MCP4725_String_Voltage);
     Delay_ms(10);
 
 
@@ -320,6 +324,24 @@ void RotaryEncoderHandler(void)
     MCP4725_valueUpdate();
 }
 
+
+void Float_to_String(float Value, char *Converted_Value){
+  int num = (int)Value;
+
+  char dec1 = (num % 10) + 0x30;
+  num = num / 10;
+  char dec2 = (num % 10) + 0x30;
+  num = num / 10;
+  char dec3 = (num % 10) + 0x30;
+  
+  Converted_Value[0] = dec3;
+  Converted_Value[1] = '.';
+  Converted_Value[2] = dec2;
+  Converted_Value[3] = dec1;
+  Converted_Value[4] = '\0';
+
+}
+
 /* BlinkLED_A function -------------------------------------------------------------*/
 void BlinkLED_A(){
     LED_A_ON;
@@ -337,34 +359,6 @@ void BlinkLED_B(){
 }
 
 
-/**
- * C++ version 0.4 char* style "itoa":
- * Written by Lukás Chmela
- * Released under GPLv3.
- */
-char* itoa(int value, char* result, int base) {
-    // check that the base if valid
-    if (base < 2 || base > 36) { *result = '\0'; return result; }
-
-    char* ptr = result, *ptr1 = result, tmp_char;
-    int tmp_value;
-
-    do {
-        tmp_value = value;
-        value /= base;
-        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
-    } while ( value );
-
-    // Apply negative sign
-    if (tmp_value < 0) *ptr++ = '-';
-    *ptr-- = '\0';
-    while(ptr1 < ptr) {
-        tmp_char = *ptr;
-        *ptr--= *ptr1;
-        *ptr1++ = tmp_char;
-    }
-    return result;
-}
 
 #ifdef USE_FULL_ASSERT
 
