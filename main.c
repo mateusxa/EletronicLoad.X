@@ -59,11 +59,14 @@
 #define MCP4725_ADDRESS       0xC2
 /* ---------------------------------------------------------------------------*/
 #define LCD_RS                GPIOD, GPIO_PIN_1
-#define LCD_EN                GPIOD, GPIO_PIN_2
+#define LCD_EN                GPIOC, GPIO_PIN_3
 #define LCD_DB4               GPIOC, GPIO_PIN_4
 #define LCD_DB5               GPIOC, GPIO_PIN_5
 #define LCD_DB6               GPIOC, GPIO_PIN_6
 #define LCD_DB7               GPIOC, GPIO_PIN_7
+
+#define ADC_PORT              GPIOD
+#define ADC_PIN               GPIO_PIN_3
 
 #include "stm8s_LCD_16x2.h"
 
@@ -88,6 +91,10 @@ uint8_t MCP4725_UpdateFlag = 10;
 char buffer[20];
 float MCP4725_Voltage = 0;
 char MCP4725_String_Voltage[5];
+uint16_t ADC_Bit_Value = 0;
+float ADC_Voltage_Value = 0;
+char ADC_String_Voltage_Value[5];
+uint16_t Voltage_Bit_Value;
 
 /* ---------------------------------------------------------------------------*/
 
@@ -99,6 +106,7 @@ void CLKinit(void);
 void GPIOinit(void);
 void I2Cinit(void);
 void TMR4init(void);
+void ADCinit(void);
 /* ---------------------------------------------------------------------------*/
 void MCP4725_write(uint16_t data);
 void MCP4725_valueUpdate(void);
@@ -125,8 +133,13 @@ INTERRUPT_HANDLER(EXTI_PORTA_IRQHandler, 3)
 /* Interrupt function TIMER 4 --------------------------------------*/
 INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
  {  
-    //if(!MCP4725_UpdateFlag) MCP4725_UpdateFlag = 1;
+    ADC1_StartConversion();
+    while(!ADC1_GetFlagStatus(ADC1_FLAG_EOC));                      // Espera finalizar a conversao AD
+    ADC1_ClearFlag(ADC1_FLAG_EOC); 
+    
+    Voltage_Bit_Value = ADC1_GetBufferValue(3);
 
+    ADC_Bit_Value = ADC1_GetBufferValue(4);                // Captura o valor do ADC
 
     TIM4_ClearFlag(TIM4_FLAG_UPDATE);                               // Limpa o flag do timer4
  }
@@ -148,13 +161,21 @@ void main(void)
   /* Infinite loop */
   while (1)
   {
-    
+
     MCP4725_Voltage = ((490.0/4096.0)*MCP4725_value) + 3;
     Float_to_String(MCP4725_Voltage, MCP4725_String_Voltage);
     
+    ADC_Voltage_Value = ((2400.0/4096.0)*ADC_Bit_Value);
+    Float_to_String(ADC_Voltage_Value, ADC_String_Voltage_Value);
+
+    Lcd_Set_Cursor(1,11);
+    Lcd_Print_String(ADC_String_Voltage_Value);
 
     Lcd_Set_Cursor(2,11);
     Lcd_Print_String(MCP4725_String_Voltage);
+
+    
+
     Delay_ms(10);
 
 
@@ -176,6 +197,7 @@ void MCUinit(void){
   CLKinit();                                      // Initializing clock configutation
   GPIOinit();                                     // Initializing GPIO configuration
   I2Cinit();                                      // Initializing I2C configuration
+  ADCinit();
   TMR4init();                                     // Initializing TMR4 configuration
   Lcd_Begin();
 
@@ -198,7 +220,6 @@ void CLKinit(void){
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_SPI, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_UART1, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_AWU, DISABLE); 
-	CLK_PeripheralClockConfig(CLK_PERIPHERAL_ADC, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER1, DISABLE); 
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER2, DISABLE);   
 	
@@ -219,6 +240,9 @@ void GPIOinit(void){
 
   GPIO_Init(SCL_PORT, SCL_PIN, GPIO_MODE_IN_PU_NO_IT);
   GPIO_Init(SDA_PORT, SDA_PIN, GPIO_MODE_IN_PU_NO_IT);
+
+  //GPIO_Init(ADC_PORT, ADC_PIN, GPIO_MODE_IN_FL_NO_IT);
+
 /*
   GPIO_Init(LCD_RS_PORT, LCD_RS_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
   GPIO_Init(LCD_ENABLE_PORT, LCD_ENABLE_PIN, GPIO_MODE_OUT_PP_LOW_SLOW);
@@ -274,6 +298,35 @@ void I2Cinit(void){
 
 }
 
+/* ADCinit function -------------------------------------------------------------*/
+void ADCinit(void){
+  ADC1_DeInit();                                      // Reseta qualquer configuracao anterior
+
+  CLK_PeripheralClockConfig(CLK_PERIPHERAL_ADC, ENABLE); 
+
+  ADC1_Init(ADC1_CONVERSIONMODE_SINGLE,           // Conversao modo continuo
+            ADC1_CHANNEL_3,                           // Seleciona canal 4
+            ADC1_PRESSEL_FCPU_D4,                     // Prescaller de 1:4
+            ADC1_EXTTRIG_GPIO,                        // Tigger externo desabilitado
+            DISABLE,
+            ADC1_ALIGN_RIGHT,                         // Configurado em 10 bits
+            ADC1_SCHMITTTRIG_CHANNEL3,                // Canal schmitt trigger desabilitado
+            DISABLE);
+  
+  ADC1_Init(ADC1_CONVERSIONMODE_SINGLE,           // Conversao modo continuo
+            ADC1_CHANNEL_4,                           // Seleciona canal 4
+            ADC1_PRESSEL_FCPU_D4,                     // Prescaller de 1:4
+            ADC1_EXTTRIG_GPIO,                        // Tigger externo desabilitado
+            DISABLE,
+            ADC1_ALIGN_RIGHT,                         // Configurado em 10 bits
+            ADC1_SCHMITTTRIG_CHANNEL4,                // Canal schmitt trigger desabilitado
+            DISABLE);
+  ADC1_ScanModeCmd (ENABLE); // Scan mode
+  ADC1_DataBufferCmd (ENABLE); // Cache mode
+  ADC1_Cmd(ENABLE);                         // M?dulo ADC desabilitado
+
+}
+
 /* MCP4725_write function -------------------------------------------------------------*/
 void MCP4725_write(uint16_t data){
 
@@ -324,7 +377,7 @@ void RotaryEncoderHandler(void)
     MCP4725_valueUpdate();
 }
 
-
+/* Float_to_String function -------------------------------------------------------------*/
 void Float_to_String(float Value, char *Converted_Value){
   int num = (int)Value;
 
