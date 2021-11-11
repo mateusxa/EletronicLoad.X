@@ -91,10 +91,12 @@ uint8_t MCP4725_UpdateFlag = 10;
 char buffer[20];
 float MCP4725_Voltage = 0;
 char MCP4725_String_Voltage[5];
-uint16_t ADC_Bit_Value = 0;
-float ADC_Voltage_Value = 0;
-char ADC_String_Voltage_Value[5];
-uint16_t Voltage_Bit_Value;
+uint16_t Input_Current_Bit_Value = 0;
+float Input_Current_Value = 0;
+char Input_Current_String_Value[5];
+uint16_t Input_Voltage_Bit_Value = 0;
+float Input_Voltage_Value = 0;
+char Input_Voltage_String_Value[5];
 
 /* ---------------------------------------------------------------------------*/
 
@@ -137,9 +139,9 @@ INTERRUPT_HANDLER(TIM4_UPD_OVF_IRQHandler, 23)
     while(!ADC1_GetFlagStatus(ADC1_FLAG_EOC));                      // Espera finalizar a conversao AD
     ADC1_ClearFlag(ADC1_FLAG_EOC); 
     
-    Voltage_Bit_Value = ADC1_GetBufferValue(3);
+    Input_Voltage_Bit_Value = ADC1_GetBufferValue(3);
 
-    ADC_Bit_Value = ADC1_GetBufferValue(4);                // Captura o valor do ADC
+    Input_Current_Bit_Value = ADC1_GetBufferValue(4);                // Captura o valor do ADC
 
     TIM4_ClearFlag(TIM4_FLAG_UPDATE);                               // Limpa o flag do timer4
  }
@@ -161,33 +163,25 @@ void main(void)
   /* Infinite loop */
   while (1)
   {
+    Input_Voltage_Value = ((2400.0/4096.0)*Input_Voltage_Bit_Value);
+    Float_to_String(Input_Voltage_Value, Input_Voltage_String_Value);
+
+    Input_Current_Value = ((490.0/4096.0)*Input_Current_Bit_Value);
+    Float_to_String(Input_Current_Value, Input_Current_String_Value);
 
     MCP4725_Voltage = ((490.0/4096.0)*MCP4725_value) + 3;
     Float_to_String(MCP4725_Voltage, MCP4725_String_Voltage);
-    
-    ADC_Voltage_Value = ((2400.0/4096.0)*ADC_Bit_Value);
-    Float_to_String(ADC_Voltage_Value, ADC_String_Voltage_Value);
 
     Lcd_Set_Cursor(1,11);
-    Lcd_Print_String(ADC_String_Voltage_Value);
+    Lcd_Print_String(Input_Voltage_String_Value);
 
     Lcd_Set_Cursor(2,11);
-    Lcd_Print_String(MCP4725_String_Voltage);
+    Lcd_Print_String(Input_Current_String_Value);
 
     
 
     Delay_ms(10);
 
-
-    /*
-    MCP4725_write(1000);
-    
-    
-    BlinkLED_A();
-    Delay_ms(500);
-    BlinkLED_B();
-    Delay_ms(500);
-    */
   } 
 }
 
